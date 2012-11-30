@@ -86,14 +86,6 @@ var Mobile = exports.Mobile = {
   moveY: 0
 };
 
-var Jumpable = exports.Jumpable = {
-  jumpSpeed : 4,
-  jumpLimit: 150,
-  jumpDistance: 0,
-  isJumping: false,
-  moveY: 0
-};
-
 var Rotative = exports.Rotative = {
   rotationSpeed : 10,
   rotation      : 0
@@ -140,7 +132,10 @@ var Weaponized = exports.Weaponized = {
   attacking: false,
   weapon: 'sword'
   //attackRadius: 0,
+};
 
+var Triggerable = exports.Triggerable = {
+  triggered: false
 };
 
 //var Shieldable = exports.Shieldable = {

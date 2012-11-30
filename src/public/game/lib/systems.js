@@ -10,71 +10,60 @@ Rendering.prototype.update = function(sprite, ms) {
   if(sprite.Animated) {
     if(!sprite.animation.currentAnimation) {
       sprite.image = sprite.animation.spriteSheet.get(0); 
-    } else if(sprite.name == 'hammer' && sprite.busy === true)  {
-      if(!sprite.animation.finished)  player.image = sprite.animation.currentAnimation == "hit" ? player.animation.update(100) : player.animation.update(50);
-      else if(sprite.animation.currentAnimation === 'hit') sprite.animation.start('back');
-      else sprite.busy = false;
     }
   } 
 };
 
-Rendering.prototype.draw = function(gobject, director) {
+Rendering.prototype.draw = function(gobject, surface, camera) {
   if(gobject.dirty && (gobject.Visible || gobject.Animated)) {
     // TODO: 2 different canvas, one for background, one for gobjects
     //this.clear(gobject, surface);
 
-    // Color inversion
-    var surface = director.surface;
-    if(gobject.color) {
-      var color = gobject.color;
-      if(!director.dark) {
-        //TODO: properly invert color: remove #, convert to integer, etc..
-        // Maybe directly add feature in gamejs.transform
-
-        if(color === "#fff") color = "#000";
-        else if(color === "#000") color = "#fff";
+    if(camera.isVisible(gobject)) {
+      if(this.scaleRate !== 1) {
+        if(!gobject.scaled) {
+          var size = gobject.rect ? [gobject.rect.width * this.scaleRate, gobject.rect.height * this.scaleRate] : [gobject.image.rect.width *this.scaleRate, gobject.image.rect.height * this.scaleRate];
+          var pos = gobject.rect ? [gobject.rect.left * this.scaleRate, gobject.rect.top * this.scaleRate] : [0, 0];
+          gobject.rect = new gamejs.Rect(pos, size);
+          gobject.scaled = true;
+        }
       }
+
+      var offset = [0, 0];
+      var rect = gobject.rect.move(camera.getOffset());
+      gobject.image ? surface.blit(gobject.image, rect, offset) : surface.fill(gobject.color, gobject.rect);
+
+      //image = gobject.image;
     }
-
-
-    // Scaling
-    if(this.scaleRate !== 1) {
-      if(!gobject.scaled) {
-        var size = gobject.rect ? [gobject.rect.width * this.scaleRate, gobject.rect.height * this.scaleRate] : [gobject.image.rect.width *this.scaleRate, gobject.image.rect.height * this.scaleRate];
-        var pos = gobject.rect ? [gobject.rect.left * this.scaleRate, gobject.rect.top * this.scaleRate] : [0, 0];
-        gobject.rect = new gamejs.Rect(pos, size);
-        gobject.scaled = true;
-      }
-      surface.blit(gobject.image, gobject.rect);
-    } else {  //surface.blit(gobject.image, gobject.rect);
-      if(gobject.circle) gamejs.draw.circle(surface, color, [gobject.rect.left + gobject.rect.width/2, gobject.rect.top + gobject.rect.height/2], gobject.circle.radius);
-      else gobject.image ? surface.blit(gobject.image, gobject.rect) : surface.fill(color, gobject.rect);
-    }
-
-    
-
-    //image = gobject.image;
   }
     gobject.dirty = false;
 };
 
-Rendering.prototype.clear = function(sprite, surface) {
-  if(sprite.oldImage) {
-    //clear font without bg
-    surface.clear(sprite.oldRect);
-    //surface.fill('#f00', sprite.rect);
-    //clear font with bg
-    surface.blit(sprite.oldImage, sprite.oldRect) 
+Rendering.prototype.clear = function(sprite, surface, camera) {
+  var offset = camera.getOffset();
+  if(sprite.oldRect) {
+    var oldRect = sprite.oldRect.move(camera.getOffset());
+    surface.clear(oldRect);
+      if(sprite.oldImage) {
+      //var oldRect = sprite.oldRect;
+        //clear font without bg
+        //surface.fill('#f00', sprite.rect);
+        //clear font with bg
+        surface.blit(sprite.oldImage, oldRect) 
+      }
   }
+  //sprite.oldRect = sprite.rect.move(offset);
   sprite.oldRect = sprite.rect.clone();
   //size = (this.animation.image) ? this.animation.image.getSize() : this.image.getSize();
-  var size = [sprite.rect.width, sprite.rect.height];
+  size = sprite.image ? sprite.image.getSize() : [sprite.rect.width, sprite.rect.height];
+  //size = [sprite.rect.width, sprite.rect.height];
     
-  width = size[0];
-  height = size[1];
   imgSize = new gamejs.Rect([0,0], size);
   mySurface = new gamejs.Surface(size);
-  rect = new gamejs.Rect(sprite.rect.left, sprite.rect.top, width, height);
+  
+  //var pos = sprite.rect.move(camera.getOffset()).topleft;
+  //rect = new gamejs.Rect(pos, size);
+  var rect = sprite.rect.clone();
   mySurface.blit(surface, imgSize, rect);
   sprite.oldImage = mySurface;
 };
@@ -82,21 +71,27 @@ Rendering.prototype.clear = function(sprite, surface) {
 Rendering.prototype.drawBackground = function(director) {
   if(director.map) {
     director.surface.clear();
-    if(this.scaleRate != 1 && !director.map.scaled) {
-      var image = director.map.visibleLayers.decor.image;
-      director.map.tileHeight = director.map.tileHeight*this.scaleRate;
-      director.map.tileWidth = director.map.tileWidth*this.scaleRate;
-      director.map.size = [director.map.size[0] * this.scaleRate, director.map.size[1] * this.scaleRate];
-      director.map.scaled = true;
+    var image = director.map.visibleLayers.collision.image;
+    var rect = new gamejs.Rect([0,0], image.getSize());
+    var bg = {rect: rect, dirty: true, Visible: true}
+    if(director.dark) {
+      bg.color = "#000";
+    } else {
+      if(this.scaleRate != 1 && !director.map.scaled) {
+        director.map.tileHeight = director.map.tileHeight*this.scaleRate;
+        director.map.tileWidth = director.map.tileWidth*this.scaleRate;
+        director.map.size = [director.map.size[0] * this.scaleRate, director.map.size[1] * this.scaleRate];
+        director.map.scaled = true;
+      }
+      bg.image = image;
     }
-    this.draw({image: image, dirty: true, Visible: true}, director.surface);
-  } else if(director.scene.bgImage) director.surface.blit(director.scene.bgImage);
-  else {
-    console.log('bg:', director.dark);
-    (director.dark) ? director.surface.fill('#000') : director.surface.fill('#fff');
+      
+      //var rect = new gamejs.Rect(director.camera.getOffset(), image.getSize());
+    
+    this.draw(bg, director.surface, director.camera);
   }
-
-  director.scene.dirty = false;
+ // director.surface.blit(director.map.visibleLayers.decor.image);
+  director.camera.dirty = false;
 };
 
 
@@ -114,9 +109,9 @@ Rotation.prototype.update = function(sprite){
 var Movement = exports.Movement = function() {
 };
 Movement.prototype.update = function(sprite, ms, director) {
-
   if(sprite.Mobile && (sprite.moveX != 0 || sprite.moveY != 0)) { 
     sprite.dirty = true;
+    var moveX, moveY, coef;
     // Handle animations that depends on moves
     if(sprite.Animated) { //&& sprite.animation.currentAnimation != 'pause') {
       // TODO: seperate animation from orientation ?
@@ -141,21 +136,21 @@ Movement.prototype.update = function(sprite, ms, director) {
       }
 
 
+    //Block the user on the side of the screen
 
-    // Really dirty jump
-    // TODO apply gravity equation on jumping
-    if(sprite.Jumpable) {
-      sprite.moveY = 1;
-      if(sprite.isJumping) { 
-        if(sprite.jumpDistance >= sprite.jumpLimit) {
-           sprite.isJumping = false;
-        } else {  
-          sprite.moveY = -1;
-        }
-      }
-    }
+      //var d = new Date();
+      //display.blit(font.render(d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() ), [5, 5]);
 
-    
+
+    //TODO: manage properly collisions
+    //surfaceRect = gamejs.display.getSurface().getRect();
+
+    //if(sprite.rect.left < 1 && sprite.moveX < 0 || sprite.rect.right > surfaceRect.width - 1 && sprite.moveX > 0) {
+    //  moveX = 0;
+    //}
+    //if(sprite.rect.top < 1 && sprite.moveY < 0 || sprite.rect.bottom > surfaceRect.height - 5  && sprite.moveY > 0) {
+    //  moveY = 0;
+    //}
 
     // check mover for collision with other sprites for x and y:
     // - if has 1 collision and object movable: check move for movable object
@@ -167,82 +162,40 @@ Movement.prototype.update = function(sprite, ms, director) {
 
     // TODO: remove hack that create a second smaller rect for collision, and separate in config drawing rect of collide rect.
     var oldRect, size, x, y;
-    oldRect = sprite.rect.clone();
+    oldRect = sprite.rect;
     size = [oldRect.width / 2.5, oldRect.height / 2]
-    //hackRect = new gamejs.Rect([Math.floor(oldRect.left + (size[0]/2)), Math.floor(oldRect.top + (size[1]/2))], size );  
-    //sprite.rect = hackRect;
+    hackRect = new gamejs.Rect([Math.floor(oldRect.left + (size[0]/2)), Math.floor(oldRect.top + (size[1]/2))], size );  
+    sprite.rect = hackRect;
 
     // TODO: Maybe manage mobile object while pressing a key that will put the user in a pushing/pulling position
     x = sprite.moveX * sprite.speed;
     y = sprite.moveY * sprite.speed;
 
 
-
     sprite.rect.moveIp(x, 0);
     if(Collision.isColliding(sprite, director, x, y)) {
-      if(sprite.name === 'ball') {
-        x = -x;
-        sprite.moveX = -sprite.moveX; 
-        sprite.speed++;
-      }
-      //sprite.rect = hackRect;
-      sprite.rect = oldRect.clone();
+       x = 0;
+       sprite.rect = hackRect;
     }
 
     sprite.rect.moveIp(0, y);
     if(Collision.isColliding(sprite, director, x, y)) {
       y = 0;
-      //sprite.rect = hackRect;
-      if(sprite.Jumpable && sprite.isJumping || sprite.jumpDistance != 0) {
-        sprite.isJumping = false;
-        sprite.jumpDistance = 0;
-        
-      }
-      sprite.rect = oldRect;
-    }
-    if(sprite.Jumpable && sprite.isJumping) sprite.jumpDistance -= y;
-    else if(sprite.jumpDistance > 0) sprite.jumpDistance -= y;
-
-    //TODO: manage properly collisions
-    //surfaceRect = gamejs.display.getSurface().getRect();
-    function  isOutOfY(sprite, director) {
-      var rect = sprite.rect;
-      var size = director.surface.getSize();
-      return rect.top < sprite.speed || (rect.top + rect.height) >= size[1] - sprite.speed;
-    }
-    function  isOutOfX(sprite, director) {
-      var rect = sprite.rect;
-      var size = director.surface.getSize();
-      return rect.left < sprite.speed || (rect.left - rect.width) >= size[0] - sprite.speed;
-    }
-
-    if(isOutOfX(sprite, director)) {
-      console.log(sprite.rect.left, sprite.rect.width);
-      if(sprite.name === "ball") sprite.rect.left < 100 ? director.loosePong() : director.winPong();
-      else {
-         x = 0;
-      }
-    }
-    if(isOutOfY(sprite, director)) {
-      if(sprite.name === "ball") sprite.moveY = - sprite.moveY;
-      else {
-        y = 0;
-      }
+      sprite.rect = hackRect;
     }
 
     sprite.rect = oldRect;
     sprite.rect.moveIp(x, y);
     collisions = gamejs.sprite.spriteCollide(sprite, director.scene.spriteGroup);
     _.each(collisions, function(sprite2, k) {
-      sprite2.dirty = true;
+      if(!sprite2.Traversable) sprite2.dirty = true;
     });
 
   }
 };
 
-//TODO: remove code below useless
 Movement.prototype.move = function(sprite, director, [x, y]) {
-  //sprite.rect.moveIp(x, y);
+  sprite.rect.moveIp(x, y);
   return Collision.isColliding(sprite, director);
 }
 
@@ -250,7 +203,7 @@ Collision = exports.Collision = {
 
   isColliding : function(sprite, director, x, y) {
     var isColliding2 = true;
-    if(!director.map || !director.map.isColliding(sprite.rect)) {
+    if(!director.map.isColliding(sprite.rect)) {
       director.scene.spriteGroup.remove(sprite);
       var collisions = gamejs.sprite.spriteCollide(sprite, director.scene.spriteGroup);
       if(!(collisions.length > 0 && sprite.Movable)) {
@@ -258,6 +211,7 @@ Collision = exports.Collision = {
         
         for(var i = 0; i < collisions.length; i++) {
           var sprite2 = collisions[i];
+          if(sprite2.Traversable) continue;
           sprite2.dirty = true;
           if(sprite2.Movable) { 
             sprite2.rect.moveIp(x, y);
@@ -268,6 +222,18 @@ Collision = exports.Collision = {
           } else isColliding2 = true;
         } 
 
+      } else {
+        // TODO: rapid hack to manage traversable, but traversable should be in a different sprite group
+        for(var i = 0; i < collisions.length; i++) {
+          var sprite2 = collisions[i];
+          //TODO:: rapid hack for trigger
+          if(sprite2.Triggerable) sprite2.triggered = true;
+          if(!sprite2.Traversable) {
+            isColliding2 = true;
+            break;
+          } else isColliding2 = false;
+        }
+        
       }
       director.scene.spriteGroup.add(sprite);
     } 
@@ -319,6 +285,28 @@ Weapon.prototype.update = function(sprite, ms, director) {
       weapon.rect.moveIp(sprite.rect.left - weapon.rect.left, sprite.rect.top - weapon.rect.top);
       weapon.image = weapon.animation.update(60);
     }
+
+  }
+}
+
+var Trigger = exports.Trigger = function() {
+}
+Trigger.prototype.update = function(sprite, ms, director) {
+  if(sprite.Triggerable && sprite.triggered === true) {
+    if(sprite.name == 'vortex') {
+      console.log('test');
+      var collisions = gamejs.sprite.spriteCollide(sprite, director.scene.spriteGroup);
+      for(var i = 0; i < collisions.length; i++) {
+        var sprite2 = collisions[i];
+        if(sprite2.Movable) {
+          sprite2.kill();
+          //director.scene.sprites[sprite2.name] = false;
+          director.sceneLoader.socket.emit('transfer cube'); 
+        }
+      }
+
+    }
+    sprite.triggered = false;
 
   }
 }

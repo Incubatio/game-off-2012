@@ -21,7 +21,7 @@ cons = require 'consolidate'
 
 
 app.configure(() ->
-  app.set 'port', process.env.PORT || 3001 
+  app.set 'port', process.env.PORT || 3002 
 
   app.engine 'haml', cons.haml
   app.set 'views', __dirname + '/views'

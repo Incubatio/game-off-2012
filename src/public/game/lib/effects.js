@@ -1,11 +1,10 @@
 var gamejs = require('gamejs');
-var $v = require('gamejs/utils/vectors');
 
 // TODO: change the architecture to have at ~5 different layer (canvas)
 // - at least 2 for background (close decors, and far horizon)
 // - 1 for special effect that apply on background (e.g. blood)
 // - 1 for sprites
-// - 1 for special effect that act like an overlay (smoke, fog, light, ...)
+// - 1 for special effect that act like an overlay (clouds, light, ...)
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,12 +15,11 @@ var Dismantle = exports.Dismantle = function(surface, options) {
   options = options || {};
   this.speed    = options.speed   || 150;
   this.minSize  = options.minSize || 2;
-  this.maxSize  = options.maxSize || 10;
+  this.maxSize  = options.minSize || 10;
   this.lifetime = options.lifetime || 300; // ms
   this.reductionRate = options.reductionRate || 0.8; // per second
   this.pos = options.pos || [0, 0];
   this.direction = options.direction || [0, 0];
-  this.size = options.size || surface.getSize();
 
   this.age = 0;
 
@@ -52,8 +50,6 @@ Dismantle.prototype.update = function(msDuration) {
       p.rect.height *= (1 - (msDuration/1000) * this.reductionRate);
    }
    this.age += msDuration;
-   surface = new gamejs.Surface(this.size[0], this.size[1]);
-   return this.draw(surface);
 }
 
 Dismantle.prototype.draw = function(surface) {
@@ -64,5 +60,4 @@ Dismantle.prototype.draw = function(surface) {
       //surface.clear(p.rect);
       surface.blit(p.surface, p.rect);
    }
-  return surface;
 }

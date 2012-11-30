@@ -29,6 +29,7 @@ options = {
     'Weapon',
     'Movement',
     'Rotation',
+    'Trigger',
     'Rendering'
   ]
   // TODO: re write TMX support
@@ -40,9 +41,13 @@ mySceneLoader = new director.SceneLoader(socket);
 
 
 images = [
-  'loading.png',
-  'bsod.png', 
-  'frameset/hammer.png' 
+  'frameset/sword.png',
+  'frameset/firefox.png',
+  'frameset/octocat.png',
+  'frameset/vortex.png',
+  'tileset/set_rules.png',
+	'loading.png',
+  'stargate.png'
 ];
 
 _.each(images, function(img, key, list) {
@@ -52,27 +57,79 @@ _.each(images, function(img, key, list) {
 isLoaded = gamejs.preload(images);
 
 function initIoEvents(prefixs) {
-  socket.on('switch light', function(light) {
-      console.log(light);
+    socket.on('switch light', function(light) {
       myDirector.dark = !light;
-    if(myDirector.scene) {
-      myDirector.scene.dirty = true;
-      myDirector.everyoneIsDirty();
-    }
+      if(myDirector.scene) {
+        myDirector.camera.dirty = true;
+        myDirector.everyoneIsDirty();
+      }
+    });
+    
+    socket.emit('register', 'game3');
+
+    // Scene Initialisation
+    socket.on('scene', function(data) {
+      var myScene = {},
+          mySprites = {},
+          mySpriteGroup = new gamejs.sprite.Group();
+      var i = 1;
+      _.each(data.sprites, function(values, key) {
+        sprite = new gamejs.sprite.Sprite(); //components.Base(values.Base.pos, values.Base.size);
+        _.each(values, function(params, classname) {
+          if(classname === "Visible" && params && params.image) {
+            params.image_urn     = prefixs.image + params.image;
+            params.originalImage = gamejs.image.load(params.image_urn);
+            //params.originalImage = gamejs.transform.scale(params.originalImage, [48, 48]); 
+            params.image = params.originalImage;
+          } else if(classname === "Base") {
+            params.rect = new gamejs.Rect(params.pos, params.size);
+          } else if(classname === "Animated") {
+            params.imageset = prefixs.image + params.imageset;
+            var imageset = gamejs.image.load(params.imageset);
+            var spriteSheet = new SpriteSheet();
+            spriteSheet.load(imageset, values.Base.size);
+            params.animation = new animation.Animation(spriteSheet, params.frameset, params.options);
+          }
+
+          sprite = components.create(sprite, classname); 
+          _.each(params, function(v, k) {
+            // TODO: use a set method that does the check below, and maybe apply it to variables above
+            sprite.hasOwnProperty(k) ? sprite[k] = v : console.log('property ' + k + ' doesn\'t exists in ' + classname + '| current value: ' + sprite[k]);
+          });
+        });
+          // for debug and maybe more
+          sprite.name = key;
+
+          mySprites[key] = sprite;
+          mySpriteGroup.add(mySprites[key]);
+        });
+
+    myScene.sprites = mySprites;
+
+    //TODO: manage sprite groups properly
+    // For now let's keep it simple only one group
+    mySpriteGroup.remove(mySprites['Player']);
+    myScene.spriteGroup = mySpriteGroup;
+    myScene.scripts = data.scripts;
+    myScene.bgImage = data.bgImage || null;
+    myScene.bgMusic = data.bgMusic || null;
+    
+    map = new Map(data.map);
+    map.prepareScreens(myDirector);
+    myDirector.map = map;
+    
+    myDirector.start(myScene);
+   // myDirector.readScript('dream');
+    return;
   });
-  socket.emit('register', 'game2');
 };
 
 function main() {
   // TODO: prepare director and preload loading.png first, display loding and then load other resources.
   myDirector = new director.Director(mySceneLoader, myParser, options);
-  myDirector.dark = true;
   initIoEvents(options.prefixs);
-  myDirector.pong();
-  //myDirector.winPong();
-  //myDirector.forge();
-  //myDirector.loadScene("start");
-  //myDirector.oiram();
+  myDirector.loading();
+  myDirector.loadScene("start");
   function tick() {
     if (myDirector.busy) {
       return;

@@ -57,7 +57,7 @@ $( ->
   #});
   Backbone.history.start()
 
-  window.socket = Backbone.io.connect('http://localhost:3000')
+  window.socket = io.connect('http://localhost:3000')
 
   #window.socket.on 'test', (data) ->
   #  console.log(data)
