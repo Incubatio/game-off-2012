@@ -57,7 +57,19 @@
       doEat: ['eat'],
       doDrink: ['drink'],
       switchLight: ['switch', 'on', 'off', 'light', 'lampp'],
-      doMove: ['move', 'run', 'n', 'e', 's', 'w']
+      doMove: ['move', 'run', 'n', 'e', 's', 'w'],
+      doHelp: ['help'],
+      doSkip: ['skip']
+    },
+    doHelp: function(target) {
+      return this.sprint("On the contrary to AI that should assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:  - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you want to go to the north, type n.  - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With theitems in your bag, you can equip/take them, look for information but also specific actions related to the item context.You most of the time need two words to manipulate object, one for the action and the other for the object/target.At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, however you still will play a bit of a text game. The command will only to work to skip the first game.");
+    },
+    doSkip: function(target) {
+      if (this.position < 300) {
+        return this.play(300);
+      } else {
+        return this.sprint("Sorry you can only skip the text game");
+      }
     },
     doLook: function(target) {
       var msg;

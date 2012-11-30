@@ -1,14 +1,14 @@
 --- 
 0:
   ai: |
-    Hello, i'm Asimov, an AI deisgned to guide you during that experimeent.
-    You just have been transported to the virtual world of maya. May I recall you that you are a prisoner in the real world
-    and that you were volunteer to test the new neural interface. 
+    Hello, i'm AI, I will guide you along the whole simulation, if you never use such interface before please type "help".
+    May I recall you that you are a prisoner in the real world and that you were volunteer to test the new neural interface. 
+    You just have been transported to the virtual world.
     You should be aware that the three law of robotics won't apply for you as long as you're a prisonner.
     Despite the fact i'm an AI, i hope you will be more successfull that yours predecessors, or we will have another 
-    neurones barbeque party ... Ha ... ha.
+    neurones barbecue party ... Ha ... ha.
     Yes ... i have humour module, my programmers though it was important to allow your experience here to be more enjoyable.
-    I do not enjoy killing human ... not at all, torture is another topic.
+    I do not enjoy killing human ... not at all, torture ... is another topic.
   actions: "play 1"
 
 1: 
@@ -58,7 +58,6 @@
     not in the mood you can skip at any moment the first part by typing "skip", but be prepared to be spoiled.  
     Still, you will need some of the basic mechnics of the text game to be able to solve puzzle later, (when it will be
     a matter of SKILL, you won't need it ^^). 
-
   actions: "play 55"
 
 
@@ -68,9 +67,6 @@
 
 44:
   text: "You're lost in the forest"
-
-
-  
 
 55: 
   text: |
