@@ -136,30 +136,6 @@ Movement.prototype.update = function(sprite, ms, director) {
       }
 
 
-    //Block the user on the side of the screen
-
-      //var d = new Date();
-      //display.blit(font.render(d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() ), [5, 5]);
-
-
-    //TODO: manage properly collisions
-    //surfaceRect = gamejs.display.getSurface().getRect();
-
-    //if(sprite.rect.left < 1 && sprite.moveX < 0 || sprite.rect.right > surfaceRect.width - 1 && sprite.moveX > 0) {
-    //  moveX = 0;
-    //}
-    //if(sprite.rect.top < 1 && sprite.moveY < 0 || sprite.rect.bottom > surfaceRect.height - 5  && sprite.moveY > 0) {
-    //  moveY = 0;
-    //}
-
-    // check mover for collision with other sprites for x and y:
-    // - if has 1 collision and object movable: check move for movable object
-    // - if move ok, move 
-    // - if move not ok, do not move
-
-    //coef = Math.abs(moveX) + Math.abs(moveY);
-    //sprite.rect.moveIp(moveX * sprite.speed / coef, moveY * sprite.speed / coef);
-
     // TODO: remove hack that create a second smaller rect for collision, and separate in config drawing rect of collide rect.
     var oldRect, size, x, y;
     oldRect = sprite.rect;
@@ -193,11 +169,6 @@ Movement.prototype.update = function(sprite, ms, director) {
 
   }
 };
-
-Movement.prototype.move = function(sprite, director, [x, y]) {
-  sprite.rect.moveIp(x, y);
-  return Collision.isColliding(sprite, director);
-}
 
 Collision = exports.Collision = {
 
