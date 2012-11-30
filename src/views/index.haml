@@ -1,0 +1,32 @@
+!!! 5
+%html
+  %head
+    %script{ src : "/js/vendor/underscore-min.js"}
+    %script{ src : "/js/vendor/jquery-1.8.2.min.js"}
+    %script{ src : "/socket.io/socket.io.js"}
+    %script{ src : "/js/vendor/backbone-min.js"}
+    %script{ src : "/socket.io/backbone.io.js"}
+    %script{ src : "/js/vendor/yabble.js"}
+    %script{ src : "/js/vendor/gamejs.min.js"}
+    %link{ "rel" : "stylesheet", "href" : "/css/reset.css", "type" : "text/css"}
+    %link{ "rel" : "stylesheet", "href" : "/css/style.css", "type" : "text/css"}
+
+
+  %body
+    %script#line-form-template{ type : "text/template" }
+      %div{ style: "height:20px; width:100%;"}
+      %form{ action : "/" }
+        %span
+          %label.cmd
+            > 
+        %span
+          %input.cmd{ type: "text" }
+    %script#lines-collection-container{ type : "text/template", style : "position: absolute; bottom: 40px;" }
+      %span.pre-wrap.cmd
+        <% _.each(lines, function(line) { %> <%= line.content  %> <% }); %>
+    #container
+      #core-head
+      #core
+      #core-foot
+
+  %script{ src : "/js/client.js"}

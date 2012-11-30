@@ -1,0 +1,13 @@
+{
+  "name": "architect_hero",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "*",
+    "backbone": "*",
+    "express": "*",
+    "hamljs" : "*",
+    "socket.io": "*",
+    "backbone.io": "git://github.com/Incubatio/backbone.io.git",
+    "consolidate": "*"
+  }
+}
