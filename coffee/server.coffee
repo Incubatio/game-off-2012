@@ -71,7 +71,7 @@ io.sockets.on 'connection', (socket) ->
           , 1000
 
         uri = 'https://github.com/Incubatio/game-off-2012.git'
-        cmd = "if [ ! -d \"#{gameName}\" ]; then git clone #{uri} #{gameName};fi;  node #{gameName}/src/server.js &> var/logs/#{gameName} < var/logs/#{gameName} &"
+        cmd = "if [ ! -d \"#{gameName}\" ]; then git clone -b #{gameName} #{uri} #{gameName};fi;  node #{gameName}/src/server.js &> var/logs/#{gameName} < var/logs/#{gameName} &"
         #cmd = "node.exe #{gameName}/src/server.js"
         console.log(cmd);
         exec(cmd, puts)
