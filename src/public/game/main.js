@@ -10,7 +10,6 @@ Map       = require('lib/tmx').Map;
 director  = require('lib/utils/director');
 
 components = require('lib/components');
-//systems    = require('lib/systems');
 
 
 socket = window.socket;

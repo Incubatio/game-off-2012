@@ -240,12 +240,6 @@ Movement.prototype.update = function(sprite, ms, director) {
   }
 };
 
-//TODO: remove code below useless
-Movement.prototype.move = function(sprite, director, [x, y]) {
-  //sprite.rect.moveIp(x, y);
-  return Collision.isColliding(sprite, director);
-}
-
 Collision = exports.Collision = {
 
   isColliding : function(sprite, director, x, y) {
