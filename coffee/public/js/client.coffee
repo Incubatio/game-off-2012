@@ -45,8 +45,8 @@ Console =
   commands: {  
     openInventory: ['inventory', 'bag']
     doAttack: ['attack', 'hit', 'kill', 'play', 'kick', 'slap', 'use']
-    doEquip: ['take', 'equip']
-    doLook: ['look', 'watch', 'observ']
+    doEquip: ['take', 'equip', 'open']
+    doLook: ['look', 'watch', 'observe']
     doEat: ['eat'] 
     doDrink: ['drink']
     switchLight: ['switch', 'on', 'off', 'light', 'lampp']
@@ -158,18 +158,21 @@ however you still will play a bit of a text game. The command will only to work 
       this.sprint("You don't stand a chance")
 
   doEquip: (target) ->
-    if this.gobjects[target] 
-      if inArray(target, this.inventory)
-        msg = ""
-        msg += "After putting #{this.equiped} back in your bag, " if this.equiped
-        msg += "you grab #{target}"
-        msg += ", and you enjoyed yourself doing it!" if this.equiped == target
-        this.equiped = target
-      else 
-        msg = "You can't take or equip what you don't possess"
+    if target == 'inventory' || target == 'bag'
+      this.openInventory()
     else
-      msg = "What a fertile imagination !"
-    this.sprint msg
+      if this.gobjects[target] 
+        if inArray(target, this.inventory)
+          msg = ""
+          msg += "After putting #{this.equiped} back in your bag, " if this.equiped
+          msg += "you grab #{target}"
+          msg += ", and you enjoyed yourself doing it!" if this.equiped == target
+          this.equiped = target
+        else 
+          msg = "You can't take or equip what you don't possess"
+      else
+        msg = "What a fertile imagination !"
+      this.sprint msg
 
   doUnEquip: () ->
     this.equiped = false
@@ -245,6 +248,7 @@ however you still will play a bit of a text game. The command will only to work 
 
   print: (text) ->
     $('span.pre-wrap').append("\r\n" + text)
+    $(document).scrollTop($(document).height())
   
   sprint: (text) ->
     this.print '<i class="system">' + text + '</i>'

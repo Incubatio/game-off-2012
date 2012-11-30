@@ -52,8 +52,8 @@
     commands: {
       openInventory: ['inventory', 'bag'],
       doAttack: ['attack', 'hit', 'kill', 'play', 'kick', 'slap', 'use'],
-      doEquip: ['take', 'equip'],
-      doLook: ['look', 'watch', 'observ'],
+      doEquip: ['take', 'equip', 'open'],
+      doLook: ['look', 'watch', 'observe'],
       doEat: ['eat'],
       doDrink: ['drink'],
       switchLight: ['switch', 'on', 'off', 'light', 'lampp'],
@@ -184,24 +184,28 @@
     },
     doEquip: function(target) {
       var msg;
-      if (this.gobjects[target]) {
-        if (inArray(target, this.inventory)) {
-          msg = "";
-          if (this.equiped) {
-            msg += "After putting " + this.equiped + " back in your bag, ";
-          }
-          msg += "you grab " + target;
-          if (this.equiped === target) {
-            msg += ", and you enjoyed yourself doing it!";
-          }
-          this.equiped = target;
-        } else {
-          msg = "You can't take or equip what you don't possess";
-        }
+      if (target === 'inventory' || target === 'bag') {
+        return this.openInventory();
       } else {
-        msg = "What a fertile imagination !";
+        if (this.gobjects[target]) {
+          if (inArray(target, this.inventory)) {
+            msg = "";
+            if (this.equiped) {
+              msg += "After putting " + this.equiped + " back in your bag, ";
+            }
+            msg += "you grab " + target;
+            if (this.equiped === target) {
+              msg += ", and you enjoyed yourself doing it!";
+            }
+            this.equiped = target;
+          } else {
+            msg = "You can't take or equip what you don't possess";
+          }
+        } else {
+          msg = "What a fertile imagination !";
+        }
+        return this.sprint(msg);
       }
-      return this.sprint(msg);
     },
     doUnEquip: function() {
       this.equiped = false;
@@ -286,7 +290,8 @@
       }
     },
     print: function(text) {
-      return $('span.pre-wrap').append("\r\n" + text);
+      $('span.pre-wrap').append("\r\n" + text);
+      return $(document).scrollTop($(document).height());
     },
     sprint: function(text) {
       return this.print('<i class="system">' + text + '</i>');

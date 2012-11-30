@@ -95,18 +95,15 @@
 
 88:
   text: |
-    it's now really dark, you bearly see your body and feet, it really feel unsafe.
+    it's now really dark, you bearly see your feet, it really feel unsafe.
   light: |
     At your feet, there is a dead cat with mantle and a magician hat is lying dead, he seemed to have been beaten on the neck.
     In the ground, you can see scratched "magical word lolcatz"
 89:
   text: |
     You are now face to face with a giant Snake which seem to be on the edge of attacking you, from the other side, you hear
-    someone running toward you, you turn your head and see a dwarf with a knife, you're surroundead, what are you going to do ?
-  answers:
-    {"lolcatz": "play TODO", "run": "", "*": "play death"}
+    someone running toward you, you turn your head and see a goblin with a knife, you're surroundead, what are you going to do ?
 
-    
   
 200: 
   text: "You just choosed to interupt the text game phase"
@@ -176,7 +173,8 @@
 
 304:
   text: |
-    After pressing space, a tab should open within 5 seconds ish at the uri: http://localhost:3001, if for any reason it's not, please open it yourself
+    After pressing space, a tab should open within 5 seconds ish at the uri: http://localhost:3001, if for any reason it's not, please open it yourself.
+    DO NOT CLOSE the first tab, you will need it sooner or later.
 
 305:
   ai: |
@@ -199,6 +197,7 @@
 311:
   text: |
     After pressing space, a tab should open within 5 seconds ish at the uri: http://localhost:3002, if for any reason it's not, please open it yourself
+    DO NOT CLOSE the first tab, you will need it sooner or later.
 
 320:
   ai: |
