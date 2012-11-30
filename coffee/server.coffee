@@ -2,9 +2,7 @@ express = require 'express'
 #app     = module.exports =  express()
 app    = require('express')()
 server = require('http').createServer(app)
-io      = require('socket.io').listen(server)
-clients = {};
-light = false;
+io     = require('socket.io').listen(server)
 
 backboneio = require('backbone.io')
 backend    = backboneio.createBackend()
@@ -13,11 +11,17 @@ backend.use(backboneio.middleware.memoryStore())
 backboneio.listen(io, { mybackend: backend })
 
 
+#_ = require 'underscore'
+#csrf = require 'csrf'
+#fs = require 'fs'
+#backbone   = require 'backbone'
+
 haml = require 'hamljs'
 cons = require 'consolidate'
 
+
 app.configure(() ->
-  app.set 'port', process.env.PORT || 3000 
+  app.set 'port', process.env.PORT || 3001 
 
   app.engine 'haml', cons.haml
   app.set 'views', __dirname + '/views'
@@ -29,97 +33,58 @@ app.configure(() ->
 
   app.use express.bodyParser()
   app.use express.cookieParser()
+  #app.use csrf.check()
   app.use app.router
   app.use express.methodOverride()
   app.use express.static("#{__dirname}/public")
 )
 
+#var controller_path = __dirname + '/controllers';
+#var controllers = fs.readdirSync(controller_path);
+#function include(path) {
+#  eval(fs.readFileSync(path, 'ascii'));
+#}
+
+#_.each(controllers, function(c, app) {
+#    if(/\w+\.js$/.exec(c)) {
+#      include(controller_path + "/" + c);
+#    }
+#  });
+
+#res.render('layout', {body: 'hello world', title: 'homeworld'});
+
+#app.get('/404', function(req, res){
+#    data = "404";
+#    res.send(data);
+#});
+
+#app.listen app.get 'port'
 server.listen app.get 'port' 
 
-
 io.sockets.on 'connection', (socket) ->
-  emit = () ->
-    args = [];
-    Array.prototype.push.apply( args, arguments );
-    clientName = args.shift();
-    if(clients[clientName])
-      clients[clientName].emit.apply clients[clientName], args
+  socket.on 'get scene', (params) -> 
+    require('fs').readFile __dirname + "/data/scenes/" + params.name + ".json", "utf8", (err,data) ->
+      scene = JSON.parse(data)
+      if(scene.map)  
+        require('fs').readFile __dirname + "/data/maps/test.json", "utf8", (err,data) ->
+          scene.map = JSON.parse(data)
+          socket.emit 'scene', scene
+      else
+        socket.emit 'scene', scene
+  #socket.emit 'news', hello: 'world'
+  #socket.on 'my other event', (data) -> 
+  #  console.log 'Hello world;'
+  #  console.log data
+    
 
-  socket.on 'register', (name) ->
-    console.log('register: ', name);
-    clients[name] = socket
-    socket.emit 'switch light', light
+#io.sockets.on 'connection', (socket) ->
+#  require('./controllers')(socket)
 
-    if(name == 'game1')
-      socket.on 'get adventure', () ->
-        require('fs').readFile __dirname + "/data/text/adventure.json", "utf8", (err,data) ->
-          emit 'game1', 'adventure', JSON.parse(data)
-
-      socket.on 'start game', (gameName) ->
-        #gameName = gameName[0]
-        port = if gameName == "game2" then 3001 else 3002
-        stack = [];
-        sys = require('sys')
-        exec = require('child_process').exec;
-        puts = (error, stdout, stderr) -> 
-          console.log(stdout)
-          sys.puts(stdout)
-          console.log('error:', error)
-          console.log('stderr:', stderr)
-          setTimeout () -> 
-            emit('game1', 'open tab', 'http://localhost:' + port)
-          , 1000
-
-        uri = 'https://github.com/Incubatio/game-off-2012.git'
-        cmd = "if [ ! -d \"#{gameName}\" ]; then git clone #{uri} #{gameName};fi;  node #{gameName}/src/server.js &> var/logs/#{gameName} < var/logs/#{gameName} &"
-        #cmd = "node.exe #{gameName}/src/server.js"
-        console.log(cmd);
-        exec(cmd, puts)
-        
-      socket.on 'reset pong', () -> 
-        emit 'game2', 'reset pong'
-
-      socket.on 'equip hammer', () -> 
-        emit 'game2', 'equip hammer'
-  
-      socket.on 'switch light', (light2) ->
-        light = light2
-        emit 'game2', 'switch light', light2
-        emit 'game3', 'switch light', light2
-        
-
-
-    if(name == 'game2')
-      socket.on 'loose pong', () -> 
-        emit 'game1', 'ai', 'haha, looser ...'
-        emit 'game1', 'sprint', '(something seem to vibrate in you bag ...)'
-        
-      socket.on 'win pong', () -> 
-        emit 'game1', 'sparse', "play 305"
-
-      socket.on 'win forge', () -> 
-        emit 'game1', 'sparse', 'play 310'
-
-      socket.on 'win oiram', () -> 
-        emit 'game1', 'sparse', 'play 320'
-
-    if(name == 'game3')
-      socket.on 'get scene', (params) -> 
-        require('fs').readFile __dirname + "/data/scenes/" + params.name + ".json", "utf8", (err,data) ->
-          scene = JSON.parse(data)
-          if(scene.map)  
-            require('fs').readFile __dirname + "/data/maps/test.json", "utf8", (err,data) ->
-              scene.map = JSON.parse(data)
-              emit 'game3', 'scene', scene
-          else
-            emit 'game3', 'scene', scene
-
-      socket.on 'transfer cube', () ->
-        emit 'game2', 'cube'
-
-      socket.on 'win rpg', () -> 
-        emit 'game1', 'sparse', 'play 330'
+#backboneio.set 'log level', 1
 
 
 app.get '/', (req, res) -> 
+  #res.sendfile __dirname + '/index.html'
   res.render('index.haml')
+
+
