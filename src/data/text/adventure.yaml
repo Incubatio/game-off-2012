@@ -1,10 +1,11 @@
 --- 
 0:
   ai: |
-    Hello, i'm AI, I will guide you along the whole simulation, if you never use such interface before please type "help".
+    Hello, i'm AI, I will guide you along the whole simulation.
     May I recall you that you are a prisoner in the real world and that you were volunteer to test the new neural interface. 
     You just have been transported to the virtual world.
     You should be aware that the three law of robotics won't apply for you as long as you're a prisonner.
+
     Despite the fact i'm an AI, i hope you will be more successfull that yours predecessors, or we will have another 
     neurones barbecue party ... Ha ... ha.
     Yes ... i have humour module, my programmers though it was important to allow your experience here to be more enjoyable.
@@ -30,28 +31,26 @@
     The first part of the simulation is optional, and you probably guessed, it's a text based game.
     On the contrary to human's stupid MMORPG, text game will require a consequent part of your brain, including your spatial
     representation, memory, puzzle solving and imagination. 
-    Actually no one did accept to play it before, it would be beneficial for me to collect data about those factors, would
-    you like to play that text game ?
-  answers: { "yes": "play 5", "no": "play 300" }
+    UPDATE ... ... ... ... ... ... ... ... ... ... Done
+    Oh i just received an update. After the beta tester tried the game, they all said "too much text" and "over complicated"
+    I guess human from 1976 had better brain. Adventure 2.0 has been replaced by a tutorial.
+    Would you like to do the tutorial (recommanded if never played text game before) ?
+  answers: { "yes": "play 5", "no": "play 302" }
   
 5:
   text: |  
-    Welcome to a Adventure 2.0 !! Would you like instructions ? 
-  answers: { "yes": "play 6", "no": "play 7" }
+    Welcome to the tutorial !!  
+    
+    this game is not exactly a text game, but a combination of several games, as soon as you will progressing in the game,
+    you will have two, then three tabs, the tabs are able to communicate with each other, so if you meet situation, be 
+    aware that you will have to use those several tabs to solve it.
+
+
+  actions: 'play 7'
 
 6:
   text: |
-    Somewhere nearby are the Forgotten Ruins, where many found treasor they wouldn't have dare imagined before. Some people
-    speak about a strange cat shaped monster living there, but you shouldn't give too much credit to them, they are
-    people who became crazy collectioning figurine and old relics.
-
-    First text game, read this section: 
-    you need to as much as possible collect data like you were there, that way it will be natural
-    for you to type "look", or "bag" to check you inventory. To allow some flexibility, lots of synonym has been 
-    added to understand your needs, but please keep them simple ^^, this is a 4 week end game after all. If you're
-    lost at some point type "help", the game will give you more information on how to find more information.
-
-    About the game itself, you should know that's it's not exactly a text adventure, it shape will change and include
+    You should know that's it's not exactly a text adventure, it shape will change and include
     canvas + mouse + keyboards interactions. I intended to put a text game to start as long as i felt it was incredibily 
     refreshing to use my brain that way, thing that i didn't do for a long time with those recent shiny video games. 
     (without quoting exceptions of course), The text adventure is short but if you really don't like textgame or if you're 
@@ -60,10 +59,26 @@
     a matter of SKILL, you won't need it ^^). 
   actions: "play 55"
 
-
 7:
-  ai: "were the previous text too heavy at your taste ?" 
-  answers: { "yes": "play 100", "no": "play 3"}
+  text: |
+    1. First, "take" the objects from the ground into your bag,
+    2. Now, you can display the content of your bag by simply saying "bag" 
+    3. Then, try to get more information about the object you have in your possession
+    4. Note you can "equip" object you have in your bag, equiping thing can be necesarry when you need to make a long work
+    it, to show ennemies you ready to use that object.
+    Some object don't need to be equiped to be used like the key or the lampp.
+    5. When you'll have finish the tutorial please unlock the door.
+
+    Here is a classic situation of a text game:
+    You're inside a room that seem strangely seem full of geek reference. 
+    The door is locked, you can't go out (what a shame, you'll have to stay on internet).
+  items: ['key', 'tachikoma', 'gundam']
+
+8:
+  text: |
+    Congratulation, you just finished the tutorial.
+  actions: ["init", 'play 303']
+    
 
 44:
   text: "You're lost in the forest"
@@ -159,8 +174,8 @@
 
 302:
   text: |
-    You receive an intense electric discharge, which detroy a part of your brain, you're now unable to move anymore without visual support.
-  actions: "play 303"
+    no tutorial, if you forgot the basics, type "help"
+  actions: ['init', "play 303"]
 
 303:
   ai: |

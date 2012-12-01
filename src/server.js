@@ -103,7 +103,7 @@
       if (name === 'game2') {
         socket.on('loose pong', function() {
           emit('game1', 'ai', 'haha, looser ...');
-          return emit('game1', 'sprint', '(something seem to vibrate in you bag ...)');
+          return emit('game1', 'sprint', '(something just moved in you bag ... it felt like a massage)');
         });
         socket.on('win pong', function() {
           return emit('game1', 'sparse', "play 305");

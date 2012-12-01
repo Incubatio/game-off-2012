@@ -13,6 +13,7 @@ Console =
   position: 0
   equiped: false
   light: false
+  tutorial: false
   
   i: 0
   stack: []
@@ -20,7 +21,7 @@ Console =
   data: {}
   gobjects: {
     ball: {
-      description: "it's actually a computer designed in a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \"",
+      description: "it's actually a computer designed in a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
       interactions: {
         doAttack: "emit reset pong"
       }
@@ -33,26 +34,43 @@ Console =
       }
     }
     lampp: {
-      description: "A classic crank frontal light",
+      description: "A classic crank frontal light"
       #interactions: {
       #  switchLight: "emit switch light"
       #}
     }
+    cake: {
+      description: "Eat me",
+      doEat: "emit cheat pong"
+    }
+    key: {
+      description: "Looks like to be the key of you room"
+    }
+    tachikoma: {
+      description: "Tachikoma ka ?, a character of gost in the shell, amazing manga, don't ya think ?"
+    }
+    gundam: {
+      description: "A small figurine of a robot. What are they usefull for when they have that size"
+    }
+    
   }
 
-  inventory: ['ball', 'hammer', 'soda', 'cake', 'lamp']
+  inventory: []
   
   commands: {  
     openInventory: ['inventory', 'bag']
-    doAttack: ['attack', 'hit', 'kill', 'play', 'kick', 'slap', 'use']
-    doEquip: ['take', 'equip', 'open']
-    doLook: ['look', 'watch', 'observe']
+    doAttack: ['attack', 'hit', 'kill', 'play', 'kick', 'slap', 'throw', 'break', 'destroy', 'anihilate']
+    doEquip: ['take', 'equip', 'grab', 'use']
+    doUnlock: ['unlock', 'open']
+    doLock: ['lock', 'close']
+    doLook: ['look', 'watch', 'observe', 'describe', 'view', 'analyse', 'details']
     doEat: ['eat'] 
     doDrink: ['drink']
     switchLight: ['switch', 'on', 'off', 'light', 'lampp']
     doMove: ['move', 'run', 'n', 'e', 's', 'w']
     doHelp: ['help']
     doSkip: ['skip']
+    doFuck: ['fuck', 'frustration']
   }
 
   #answers: {
@@ -62,25 +80,62 @@ Console =
 
   doHelp: (target) ->
     this.sprint "On the contrary to AI that should assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.
-Two important basics are:
+Two important basics are:\n
   - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you 
-want to go to the north, type n.
+want to go to the north, type n.\n
   - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With the
 items in your bag, you can equip/take them, look for information but also specific actions related to the item context.
 You most of the time need two words to manipulate object, one for the action and the other for the object/target.
 At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, 
 however you still will play a bit of a text game. The command will only to work to skip the first game."
 
+  init: () ->
+    this.sprint "END OF THE TUTORIAL\n\n"
+    this.inventory = ['ball', 'lampp', 'cake', 'drink', 'hammer', 'tachikoma', 'gundam']
+    this.sprint "Your inventory has been updated (you received new objects)"
+
+
   doSkip: (target) ->
     if(this.position < 300) 
       this.play 300
     else
       this.sprint "Sorry you can only skip the text game"
-    
 
+  doEat: (target) ->
+    if !target
+      msg = this.funcName + " <...>, what ?"
+    else
+      if(this.gobjects[target]['interactions']['doEat'])
+        if(inArray target, this.inventory)
+          msg = if this.funcName == 'eat' then "nom nom nom" else "That was refreshing"
+          this.inventory.pop target
+        else
+          msg = "Nooope, I don't see that in your bag"
+      else
+        msg = "You're just silly"
+    
+  doFuck: (target) ->
+    this.sprint 'rage ?'
+
+  doLock: (target) ->
+    this.sprint 'There is no point doing that'
+
+  doUnlock: (target) ->
+    msg = "What do you want to unlock ?"
+    if(target == "door")
+      if(this.tutorial)
+        msg = "it's already unlocked"
+        this.tutorial = true
+      else
+        if inArray('key', this.inventory)
+          msg = target + " is now unlocked"
+        else
+          msg = "It's locked and you don't have any key"
+    this.sprint msg   
+    
   doLook: (target) ->
     if !target
-      msg = "not sure WHAT you asking to " + this.funcName + ", so i'll just repeat the description of the place:\n" + this.data[this.position];
+      msg = "I have no more information for the current situation"
     else 
       console.log(this.inventory[target])
       if inArray(target, this.inventory)
@@ -97,7 +152,7 @@ however you still will play a bit of a text game. The command will only to work 
   openInventory: (target) ->
     #if target  msg="what do you want to do with #{target}"
     if(this.inventory.length > 0)
-      msg = "you have: " + this.inventory.join(",\n")
+      msg = "you have:\n " + this.inventory.join(",\n")
     else
       msg = "you have nothing in your bag"
     this.sprint msg
@@ -132,23 +187,27 @@ however you still will play a bit of a text game. The command will only to work 
 
 
   switchLight: (target) ->
-    light = {on: true, off: false}
+    if inArray 'lampp', this.inventory
+      light = {on: true, off: false}
 
-    if(this.funcName != 'on' && this.funcName != 'off')
-      if(!target || (target != 'on' && target != 'off') )
-        this.light = !this.light
-        target = if light['on'] == this.light then 'on' else 'off'
+      if(this.funcName != 'on' && this.funcName != 'off')
+        if(!target || (target != 'on' && target != 'off') )
+          this.light = !this.light
+          target = if light['on'] == this.light then 'on' else 'off'
+          hasChanged = true
+      if !hasChanged
         hasChanged = true
-    if !hasChanged
-      hasChanged = true
-      target = this.funcName if !target
-      hasChanged = false if light[target] && this.light
-      hasChanged = false if !light[target] && !this.light
-      this.light = light[target]
+        target = this.funcName if !target
+        hasChanged = false if light[target] && this.light
+        hasChanged = false if !light[target] && !this.light
+        this.light = light[target]
 
-    socket.emit('switch light', this.light) if hasChanged
-    msg = if hasChanged then "Lampp is now #{target}" else "Lampp is already #{target}"
+      socket.emit('switch light', this.light) if hasChanged
+      msg = if hasChanged then "Lampp is now #{target}" else "Lampp is already #{target}"
+    else
+      msg = "Nothing to light sir !"
     this.sprint msg
+    
     
   
   doAttack: (target) ->
@@ -158,21 +217,30 @@ however you still will play a bit of a text game. The command will only to work 
       this.sprint("You don't stand a chance")
 
   doEquip: (target) ->
-    if target == 'inventory' || target == 'bag'
-      this.openInventory()
-    else
-      if this.gobjects[target] 
-        if inArray(target, this.inventory)
-          msg = ""
-          msg += "After putting #{this.equiped} back in your bag, " if this.equiped
-          msg += "you grab #{target}"
-          msg += ", and you enjoyed yourself doing it!" if this.equiped == target
-          this.equiped = target
-        else 
-          msg = "You can't take or equip what you don't possess"
+    if this.data[this.position]['items']
+      if this.funcName == 'equip'
+        msg = "I can't equip what i don't have in my inventory" 
       else
-        msg = "What a fertile imagination !"
+        this.inventory.push target
+        this.data[this.position]['items'].pop target
+        msg = "you just put " + target + " in your bag"
       this.sprint msg
+    else
+      if target == 'inventory' || target == 'bag'
+        this.openInventory()
+      else
+        if this.gobjects[target] 
+          if inArray(target, this.inventory)
+            msg = ""
+            msg += "After putting #{this.equiped} back in your bag, " if this.equiped
+            msg += "you grab #{target}"
+            msg += ", and you enjoyed yourself doing it!" if this.equiped == target
+            this.equiped = target
+          else 
+            msg = "You can't take or equip what you don't possess"
+        else
+          msg = "What a fertile imagination !"
+        this.sprint msg
 
   doUnEquip: () ->
     this.equiped = false
@@ -240,8 +308,7 @@ however you still will play a bit of a text game. The command will only to work 
           else
             this.trigger(funcName, args[1])
         else
-          console.log(args)
-          if inArray args[0], this.inventory
+          if inArray(args[0], this.inventory) || inArray(args[0], this.data[this.position]['items'])
             this.sprint "What do you want to do with the " + args[0] + "?"
           else
             this.sprint('Unknow command "' + cmd.toUpperCase() + '".')
@@ -264,7 +331,7 @@ however you still will play a bit of a text game. The command will only to work 
     if this.data[num]['text'] then this.sprint this.data[num]['text'] else this.ai this.data[num]['ai']
     #this.sprint(this.data[num]['text'])
     if(this.data[num]['items'])
-      'There is a ' + this.data[num]['items'].join("\nThere is a")
+      this.sprint 'There is a ' + this.data[num]['items'].join("\nThere is a ")
     if(this.data[num]['actions'])
       actions = this.data[num]['actions']
       if(typeof actions == 'object')

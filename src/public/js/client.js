@@ -27,12 +27,13 @@
     position: 0,
     equiped: false,
     light: false,
+    tutorial: false,
     i: 0,
     stack: [],
     data: {},
     gobjects: {
       ball: {
-        description: "it's actually a computer designed in a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \"",
+        description: "it's actually a computer designed in a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
         interactions: {
           doAttack: "emit reset pong"
         }
@@ -46,23 +47,44 @@
       },
       lampp: {
         description: "A classic crank frontal light"
+      },
+      cake: {
+        description: "Eat me",
+        doEat: "emit cheat pong"
+      },
+      key: {
+        description: "Looks like to be the key of you room"
+      },
+      tachikoma: {
+        description: "Tachikoma ka ?, a character of gost in the shell, amazing manga, don't ya think ?"
+      },
+      gundam: {
+        description: "A small figurine of a robot. What are they usefull for when they have that size"
       }
     },
-    inventory: ['ball', 'hammer', 'soda', 'cake', 'lamp'],
+    inventory: [],
     commands: {
       openInventory: ['inventory', 'bag'],
-      doAttack: ['attack', 'hit', 'kill', 'play', 'kick', 'slap', 'use'],
-      doEquip: ['take', 'equip', 'open'],
-      doLook: ['look', 'watch', 'observe'],
+      doAttack: ['attack', 'hit', 'kill', 'play', 'kick', 'slap', 'throw', 'break', 'destroy', 'anihilate'],
+      doEquip: ['take', 'equip', 'grab', 'use'],
+      doUnlock: ['unlock', 'open'],
+      doLock: ['lock', 'close'],
+      doLook: ['look', 'watch', 'observe', 'describe', 'view', 'analyse', 'details'],
       doEat: ['eat'],
       doDrink: ['drink'],
       switchLight: ['switch', 'on', 'off', 'light', 'lampp'],
       doMove: ['move', 'run', 'n', 'e', 's', 'w'],
       doHelp: ['help'],
-      doSkip: ['skip']
+      doSkip: ['skip'],
+      doFuck: ['fuck', 'frustration']
     },
     doHelp: function(target) {
-      return this.sprint("On the contrary to AI that should assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:  - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you want to go to the north, type n.  - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With theitems in your bag, you can equip/take them, look for information but also specific actions related to the item context.You most of the time need two words to manipulate object, one for the action and the other for the object/target.At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, however you still will play a bit of a text game. The command will only to work to skip the first game.");
+      return this.sprint("On the contrary to AI that should assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:\n  - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you want to go to the north, type n.\n  - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With theitems in your bag, you can equip/take them, look for information but also specific actions related to the item context.You most of the time need two words to manipulate object, one for the action and the other for the object/target.At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, however you still will play a bit of a text game. The command will only to work to skip the first game.");
+    },
+    init: function() {
+      this.sprint("END OF THE TUTORIAL\n\n");
+      this.inventory = ['ball', 'lampp', 'cake', 'drink', 'hammer', 'tachikoma', 'gundam'];
+      return this.sprint("Your inventory has been updated (you received new objects)");
     },
     doSkip: function(target) {
       if (this.position < 300) {
@@ -71,10 +93,50 @@
         return this.sprint("Sorry you can only skip the text game");
       }
     },
+    doEat: function(target) {
+      var msg;
+      if (!target) {
+        return msg = this.funcName + " <...>, what ?";
+      } else {
+        if (this.gobjects[target]['interactions']['doEat']) {
+          if (inArray(target, this.inventory)) {
+            msg = this.funcName === 'eat' ? "nom nom nom" : "That was refreshing";
+            return this.inventory.pop(target);
+          } else {
+            return msg = "Nooope, I don't see that in your bag";
+          }
+        } else {
+          return msg = "You're just silly";
+        }
+      }
+    },
+    doFuck: function(target) {
+      return this.sprint('rage ?');
+    },
+    doLock: function(target) {
+      return this.sprint('There is no point doing that');
+    },
+    doUnlock: function(target) {
+      var msg;
+      msg = "What do you want to unlock ?";
+      if (target === "door") {
+        if (this.tutorial) {
+          msg = "it's already unlocked";
+          this.tutorial = true;
+        } else {
+          if (inArray('key', this.inventory)) {
+            msg = target + " is now unlocked";
+          } else {
+            msg = "It's locked and you don't have any key";
+          }
+        }
+      }
+      return this.sprint(msg);
+    },
     doLook: function(target) {
       var msg;
       if (!target) {
-        msg = "not sure WHAT you asking to " + this.funcName + ", so i'll just repeat the description of the place:\n" + this.data[this.position];
+        msg = "I have no more information for the current situation";
       } else {
         console.log(this.inventory[target]);
         if (inArray(target, this.inventory)) {
@@ -93,7 +155,7 @@
     openInventory: function(target) {
       var msg;
       if (this.inventory.length > 0) {
-        msg = "you have: " + this.inventory.join(",\n");
+        msg = "you have:\n " + this.inventory.join(",\n");
       } else {
         msg = "you have nothing in your bag";
       }
@@ -145,34 +207,38 @@
     },
     switchLight: function(target) {
       var hasChanged, light, msg;
-      light = {
-        on: true,
-        off: false
-      };
-      if (this.funcName !== 'on' && this.funcName !== 'off') {
-        if (!target || (target !== 'on' && target !== 'off')) {
-          this.light = !this.light;
-          target = light['on'] === this.light ? 'on' : 'off';
+      if (inArray('lampp', this.inventory)) {
+        light = {
+          on: true,
+          off: false
+        };
+        if (this.funcName !== 'on' && this.funcName !== 'off') {
+          if (!target || (target !== 'on' && target !== 'off')) {
+            this.light = !this.light;
+            target = light['on'] === this.light ? 'on' : 'off';
+            hasChanged = true;
+          }
+        }
+        if (!hasChanged) {
           hasChanged = true;
+          if (!target) {
+            target = this.funcName;
+          }
+          if (light[target] && this.light) {
+            hasChanged = false;
+          }
+          if (!light[target] && !this.light) {
+            hasChanged = false;
+          }
+          this.light = light[target];
         }
+        if (hasChanged) {
+          socket.emit('switch light', this.light);
+        }
+        msg = hasChanged ? "Lampp is now " + target : "Lampp is already " + target;
+      } else {
+        msg = "Nothing to light sir !";
       }
-      if (!hasChanged) {
-        hasChanged = true;
-        if (!target) {
-          target = this.funcName;
-        }
-        if (light[target] && this.light) {
-          hasChanged = false;
-        }
-        if (!light[target] && !this.light) {
-          hasChanged = false;
-        }
-        this.light = light[target];
-      }
-      if (hasChanged) {
-        socket.emit('switch light', this.light);
-      }
-      msg = hasChanged ? "Lampp is now " + target : "Lampp is already " + target;
       return this.sprint(msg);
     },
     doAttack: function(target) {
@@ -184,27 +250,38 @@
     },
     doEquip: function(target) {
       var msg;
-      if (target === 'inventory' || target === 'bag') {
-        return this.openInventory();
-      } else {
-        if (this.gobjects[target]) {
-          if (inArray(target, this.inventory)) {
-            msg = "";
-            if (this.equiped) {
-              msg += "After putting " + this.equiped + " back in your bag, ";
-            }
-            msg += "you grab " + target;
-            if (this.equiped === target) {
-              msg += ", and you enjoyed yourself doing it!";
-            }
-            this.equiped = target;
-          } else {
-            msg = "You can't take or equip what you don't possess";
-          }
+      if (this.data[this.position]['items']) {
+        if (this.funcName === 'equip') {
+          msg = "I can't equip what i don't have in my inventory";
         } else {
-          msg = "What a fertile imagination !";
+          this.inventory.push(target);
+          this.data[this.position]['items'].pop(target);
+          msg = "you just put " + target + " in your bag";
         }
         return this.sprint(msg);
+      } else {
+        if (target === 'inventory' || target === 'bag') {
+          return this.openInventory();
+        } else {
+          if (this.gobjects[target]) {
+            if (inArray(target, this.inventory)) {
+              msg = "";
+              if (this.equiped) {
+                msg += "After putting " + this.equiped + " back in your bag, ";
+              }
+              msg += "you grab " + target;
+              if (this.equiped === target) {
+                msg += ", and you enjoyed yourself doing it!";
+              }
+              this.equiped = target;
+            } else {
+              msg = "You can't take or equip what you don't possess";
+            }
+          } else {
+            msg = "What a fertile imagination !";
+          }
+          return this.sprint(msg);
+        }
       }
     },
     doUnEquip: function() {
@@ -279,8 +356,7 @@
               return this.trigger(funcName, args[1]);
             }
           } else {
-            console.log(args);
-            if (inArray(args[0], this.inventory)) {
+            if (inArray(args[0], this.inventory) || inArray(args[0], this.data[this.position]['items'])) {
               return this.sprint("What do you want to do with the " + args[0] + "?");
             } else {
               return this.sprint('Unknow command "' + cmd.toUpperCase() + '".');
@@ -311,7 +387,7 @@
         this.ai(this.data[num]['ai']);
       }
       if (this.data[num]['items']) {
-        'There is a ' + this.data[num]['items'].join("\nThere is a");
+        this.sprint('There is a ' + this.data[num]['items'].join("\nThere is a "));
       }
       if (this.data[num]['actions']) {
         actions = this.data[num]['actions'];

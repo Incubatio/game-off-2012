@@ -92,7 +92,7 @@ io.sockets.on 'connection', (socket) ->
     if(name == 'game2')
       socket.on 'loose pong', () -> 
         emit 'game1', 'ai', 'haha, looser ...'
-        emit 'game1', 'sprint', '(something seem to vibrate in you bag ...)'
+        emit 'game1', 'sprint', '(something just moved in you bag ... it felt like a massage)'
         
       socket.on 'win pong', () -> 
         emit 'game1', 'sparse', "play 305"
