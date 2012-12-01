@@ -44,6 +44,7 @@ Rendering.prototype.clear = function(sprite, surface, camera) {
   if(sprite.oldRect) {
     var oldRect = sprite.oldRect.move(camera.getOffset());
     surface.clear(oldRect);
+    surface.clear(sprite.rect);
       if(sprite.oldImage) {
       //var oldRect = sprite.oldRect;
         //clear font without bg

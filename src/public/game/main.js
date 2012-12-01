@@ -103,6 +103,22 @@ function initIoEvents(prefixs) {
           mySpriteGroup.add(mySprites[key]);
         });
 
+    var box;
+    for(var j = 2; j < 14; j++) {
+      key = 'box' + j
+      box = components.create(new gamejs.sprite.Sprite(), 'Base', 'Visible', 'Movable', 'Mobile');
+  
+      box.size = [32, 32];
+      box.pos = [j*32*2, 4*32*2];
+      box.rect = new gamejs.Rect(box.pos, box.size);
+      box.color = '#fff';
+      box.name = key;
+      mySprites[key] = box;
+      mySpriteGroup.add(box);
+      
+    }
+
+
     myScene.sprites = mySprites;
 
     //TODO: manage sprite groups properly
