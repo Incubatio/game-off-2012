@@ -1,7 +1,9 @@
 --- 
 0:
   ai: |
-    Hello, i'm AI, I will guide you along the whole simulation.
+    Hello, i'm AI, I will guide you along the whole simulation. I will open several interfaces (tabulations), please DON'T CLOSE
+    THEM until the game is over. If you do close a tab, you will loose you progression (you can fastly get back, but still).
+
     May I recall you that you are a prisoner in the real world and that you were volunteer to test a new neural interface. 
     You are at the moment into the virtual world, You should be aware that here the three law of robotics won't apply.
 
@@ -59,16 +61,22 @@
   text: |
     TUTORIAL STARTED
 
-    1. First, "take" the objects from the ground into your bag,
-    2. Now, you can display the content of your bag by simply saying "bag" 
-    3. Then, try to get more information about the object you have in your possession
-    4. Note you can "equip" object you have in your bag, equiping thing can be necesarry when you need to make a long work
-    it, to show ennemies you ready to use that object.
-    Some object don't need to be equiped to be used like the key or the lampp.
-    5. Note2: if at some point of the game you're really really stuck, type "hint"
-    5. When you'll have finish the tutorial please unlock the door.
+    On this tab of the game, this command line will be your hands and you eyes, you can do almost everything by using 1 or 2 words commands. 
+    Try to visualise the situation and the context and put your wish in those 1, 2 words.
+    For example I want a cake could be: "want cake" or "wish cake".
+    In a problem solving, you would more look for information, don't hesitate to try silly commands, sometime it could work.
 
-    Here is a classic situation of a text game:
+    Note that there are differences between using an object, wearing it or storing it.
+
+    If after or during this tutorial you don't understand or remember how to use commands, please type "help", 
+    it points out the basics commands and mechanics, but  be aware that the "help" do not provide all the possible actions, neither the solution.
+
+    If at some point you're just stuck with a puzzle, type "hint", note that "hint" will bring additional information, but
+    the game will already provide other informations troughout every opened tab. 
+    
+    Here is a classic situation of a text game, you have to get information, gather object, use/equip object.
+    The goal in this tutorial is for you to get out of the room.
+
     You're inside a room that seem strangely seem full of geek reference. 
     The door is locked, you can't go out (what a shame, you'll have to stay on internet).
   items: ['key', 'tachikoma', 'gundam']
