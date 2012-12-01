@@ -80,6 +80,7 @@ Rendering.prototype.clear = function(sprite, surface) {
 };
 
 Rendering.prototype.drawBackground = function(director) {
+  var size = director.surface.getSize();
   if(director.map) {
     director.surface.clear();
     if(this.scaleRate != 1 && !director.map.scaled) {
@@ -90,11 +91,12 @@ Rendering.prototype.drawBackground = function(director) {
       director.map.scaled = true;
     }
     this.draw({image: image, dirty: true, Visible: true}, director.surface);
-  } else if(director.scene.bgImage) director.surface.blit(director.scene.bgImage, new gamejs.Rect([0,0], director.surface.getSize()));
+  } else if(director.scene.bgImage) director.surface.blit(director.scene.bgImage, new gamejs.Rect([0,0], size));
   else {
     console.log('bg:', director.dark);
     (director.dark) ? director.surface.fill('#000') : director.surface.fill('#fff');
   }
+  if(director.scene.sprites.ball) director.surface.blit(director.font.render("Windows 95", '#00f'), [size[0]/2 - 100 , size[1]-22]);
 
   director.scene.dirty = false;
 };
