@@ -328,7 +328,17 @@ however you still will play a bit of a text game. The command will only to work 
           else
             this.sprint('Unknow command "' + cmd.toUpperCase() + '".')
 
+  playSound: () ->
+    #sfx.play()
+    audio = new Audio();
+    #audio.src = 
+    ext = if Modernizr.audio.ogg then 'ogg' else if Modernizr.audio.mp3 then 'mp3' else 'm4a'
+
+    audio.src = 'sfx/appear-online.' + ext
+    audio.play();
+
   print: (text) ->
+    this.playSound();
     $('span.pre-wrap').append("\r\n" + text)
     $(document).scrollTop($(document).height())
   

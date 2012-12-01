@@ -102,6 +102,8 @@ io.sockets.on 'connection', (socket) ->
 
       socket.on 'win oiram', () -> 
         emit 'game1', 'sparse', 'play 320'
+        emit 'game2', 'finish'
+        emit 'game3', 'finish'
 
     if(name == 'game3')
       socket.on 'get scene', (params) -> 

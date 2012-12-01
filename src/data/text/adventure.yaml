@@ -213,6 +213,10 @@
     After pressing space, a tab should open within 5 seconds ish at the uri: http://localhost:3002, if for any reason it's not, please open it yourself
     DO NOT CLOSE the first tab, you will need it sooner or later.
 
+315:
+  ai: |
+    No more time for talking, it's time for boss fight
+
 320:
   ai: |
     Congratulation, you just finished the game. Did you know that ai in japaneese mean love ?

@@ -112,7 +112,9 @@
           return emit('game1', 'sparse', 'play 310');
         });
         socket.on('win oiram', function() {
-          return emit('game1', 'sparse', 'play 320');
+          emit('game1', 'sparse', 'play 320');
+          emit('game2', 'finish');
+          return emit('game3', 'finish');
         });
       }
       if (name === 'game3') {

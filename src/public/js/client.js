@@ -378,7 +378,15 @@
         }
       }
     },
+    playSound: function() {
+      var audio, ext;
+      audio = new Audio();
+      ext = Modernizr.audio.ogg ? 'ogg' : Modernizr.audio.mp3 ? 'mp3' : 'm4a';
+      audio.src = 'sfx/appear-online.' + ext;
+      return audio.play();
+    },
     print: function(text) {
+      this.playSound();
       $('span.pre-wrap').append("\r\n" + text);
       return $(document).scrollTop($(document).height());
     },
