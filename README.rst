@@ -1,11 +1,13 @@
+===========
 RETRO-CATZ
-##########
+===========
+*Participation to the github game off 2012*
 
 Enjoy ;)
 
 
 Description
-===========
+=========
 This game contains a unique experience where the player will play with in multiple inter-connected games in
 different tabs.
 
@@ -21,32 +23,28 @@ Will have then a second tab including 2 dimensions monochromes games
 
 To finally have a classical rpg (cf: final fantasy VI, chrono trigger ..) in colors with animated sprites and a tmx map
 
-(no screenshot, could spoil i think)
+(no screenshot, could spoil I guess)
 
-//TODO: More comment about the game later
 
 
 Install
 =======
 
-npm install
+``npm install``
+``node ./src/server.js``
 
-node ./src/server.js
-
-browse: http://localhost:3000
+browse: ``http://localhost:3000``
 
 
 Requirements
 ============
 
-Server:
-
-Os Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
-node > v0.8.14
+Server
+- Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
+- node > v0.8.14
 
 Client:
-
-browser with full html5 support (tested on Firefox 16, Safari 6, Chrome 23)
+- browser with full html5 support (tested on Firefox 16, Safari 6, Chrome 23)
 
 
 
