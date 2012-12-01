@@ -14,13 +14,15 @@
 
   inArray = function(needle, haystack) {
     var i, _i, _len;
-    for (_i = 0, _len = haystack.length; _i < _len; _i++) {
-      i = haystack[_i];
-      if (i === needle) {
-        return true;
+    if (haystack && typeof haystack === "object") {
+      for (_i = 0, _len = haystack.length; _i < _len; _i++) {
+        i = haystack[_i];
+        if (i === needle) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
   };
 
   Console = {
@@ -33,7 +35,7 @@
     data: {},
     gobjects: {
       ball: {
-        description: "it's actually a computer designed in a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
+        description: "A computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
         interactions: {
           doAttack: "emit reset pong"
         }
@@ -41,7 +43,7 @@
       hammer: {
         description: "A small hammer that would have been manufactured by Thor, Hephaistos and Vulcain, the legend says that it helped building the sky",
         interactions: {
-          doAttack: "sprint this is to small to hurt anyone",
+          doAttack: "sprint This is to small to hurt anyone",
           doEquip: "emit equip hammer"
         }
       },
@@ -50,7 +52,15 @@
       },
       cake: {
         description: "Eat me",
-        doEat: "emit cheat pong"
+        interactions: {
+          doEat: "emit grow pong"
+        }
+      },
+      soda: {
+        description: "Dink me",
+        interactions: {
+          doEat: "emit shrink pong"
+        }
       },
       key: {
         description: "Looks like to be the key of you room"
@@ -73,18 +83,17 @@
       doEat: ['eat'],
       doDrink: ['drink'],
       switchLight: ['switch', 'on', 'off', 'light', 'lampp'],
-      doMove: ['move', 'run', 'n', 'e', 's', 'w'],
       doHelp: ['help'],
       doSkip: ['skip'],
       doFuck: ['fuck', 'frustration'],
       doHint: ['hint']
     },
     doHelp: function(target) {
-      return this.sprint("On the contrary to AI that should assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:\n  - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you want to go to the north, type n.\n  - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With theitems in your bag, you can equip/take them, look for information but also specific actions related to the item context.You most of the time need two words to manipulate object, one for the action and the other for the object/target.At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, however you still will play a bit of a text game. The command will only to work to skip the first game.");
+      return this.sprint("On the contrary to AI that assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:\n  - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you want to go to the north, type n.\n  [MOVEMENT IS OBSOLETE -> as long as \"testers\" were a bit frustrated by not being able to have a spacial representation, i'll re-activate the feature, when i'll code a GPS] \n  - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With theitems in your bag, you can equip/take them, look for information but also specific actions related to the item context.You most of the time need two words to manipulate object, one for the action and the other for the object/target.At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, however you still will play a bit of a text game. The command will only to work to skip the first game.");
     },
     init: function() {
       this.sprint("END OF THE TUTORIAL\n\n");
-      this.inventory = ['ball', 'lampp', 'cake', 'drink', 'hammer', 'tachikoma', 'gundam'];
+      this.inventory = ['ball', 'lampp', 'cake', 'soda', 'hammer', 'tachikoma', 'gundam'];
       return this.sprint("Your inventory has been updated (you received new objects)");
     },
     doHint: function() {
@@ -94,32 +103,33 @@
         case this.position > 304:
           return this.sprint("You need to be equiped before going on war, and that blue screen is death.");
         case this.position > 310:
-          return this.sprint("If the moon can't catch the sun, the stairway to freedom will stay almost invisible");
+          return this.sprint("If the moon can't catch the sun, the stairway to freedom will stay almost invisible ... oh, and collisions reset the \"magnetic jump\"");
       }
     },
     doSkip: function(target) {
       if (this.position < 302) {
         return this.play(302);
       } else {
-        return this.sprint("Sorry you can only skip the text game");
+        return this.sprint("Sorry you can only skip the tutorial");
       }
     },
     doEat: function(target) {
       var msg;
       if (!target) {
-        return msg = this.funcName + " <...>, what ?";
+        msg = this.funcName + " <...>, what ?";
       } else {
-        if (this.gobjects[target]['interactions']['doEat']) {
+        if (this.gobjects[target] && this.gobjects[target]['interactions']['doEat']) {
           if (inArray(target, this.inventory)) {
             msg = this.funcName === 'eat' ? "nom nom nom" : "That was refreshing";
-            return this.inventory.pop(target);
+            this.inventory.pop(target);
           } else {
-            return msg = "Nooope, I don't see that in your bag";
+            msg = "Nooope, I don't see that in your bag";
           }
         } else {
-          return msg = "You're just silly";
+          msg = "You're just silly";
         }
       }
+      return this.sprint(msg);
     },
     doFuck: function(target) {
       return this.sprint('rage ?');
@@ -130,7 +140,7 @@
     doUnlock: function(target) {
       var msg;
       msg = "What do you want to unlock ?";
-      if (target === "door") {
+      if (target === "door" || target === "room") {
         if (this.tutorial) {
           msg = "it's already unlocked";
           this.tutorial = true;

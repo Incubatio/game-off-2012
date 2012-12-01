@@ -4,10 +4,11 @@ Backbone   = window.Backbone
 socket = io.connect('http://localhost:3000')
 
 inArray = (needle, haystack) ->
-  for i in haystack 
-    if(i == needle) 
-      return true
-  return false
+  if(haystack && typeof haystack == "object")
+    for i in haystack 
+      if(i == needle) 
+        return true
+    return false
 
 Console =
   position: 0
@@ -21,7 +22,7 @@ Console =
   data: {}
   gobjects: {
     ball: {
-      description: "it's actually a computer designed in a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
+      description: "A computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
       interactions: {
         doAttack: "emit reset pong"
       }
@@ -29,7 +30,7 @@ Console =
     hammer: {
       description: "A small hammer that would have been manufactured by Thor, Hephaistos and Vulcain, the legend says that it helped building the sky"
       interactions: {
-        doAttack: "sprint this is to small to hurt anyone",
+        doAttack: "sprint This is to small to hurt anyone",
         doEquip: "emit equip hammer"
       }
     }
@@ -41,7 +42,15 @@ Console =
     }
     cake: {
       description: "Eat me",
-      doEat: "emit cheat pong"
+      interactions: {
+        doEat: "emit grow pong"
+      }
+    }
+    soda: {
+      description: "Dink me",
+      interactions: {
+        doEat: "emit shrink pong"
+      }
     }
     key: {
       description: "Looks like to be the key of you room"
@@ -67,7 +76,7 @@ Console =
     doEat: ['eat'] 
     doDrink: ['drink']
     switchLight: ['switch', 'on', 'off', 'light', 'lampp']
-    doMove: ['move', 'run', 'n', 'e', 's', 'w']
+    #doMove: ['move', 'run', 'n', 'e', 's', 'w']
     doHelp: ['help']
     doSkip: ['skip']
     doFuck: ['fuck', 'frustration']
@@ -80,10 +89,11 @@ Console =
   #}
 
   doHelp: (target) ->
-    this.sprint "On the contrary to AI that should assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.
+    this.sprint "On the contrary to AI that assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.
 Two important basics are:\n
   - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you 
 want to go to the north, type n.\n
+  [MOVEMENT IS OBSOLETE -> as long as \"testers\" were a bit frustrated by not being able to have a spacial representation, i'll re-activate the feature, when i'll code a GPS] \n
   - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With the
 items in your bag, you can equip/take them, look for information but also specific actions related to the item context.
 You most of the time need two words to manipulate object, one for the action and the other for the object/target.
@@ -92,7 +102,7 @@ however you still will play a bit of a text game. The command will only to work 
 
   init: () ->
     this.sprint "END OF THE TUTORIAL\n\n"
-    this.inventory = ['ball', 'lampp', 'cake', 'drink', 'hammer', 'tachikoma', 'gundam']
+    this.inventory = ['ball', 'lampp', 'cake', 'soda', 'hammer', 'tachikoma', 'gundam']
     this.sprint "Your inventory has been updated (you received new objects)"
 
   doHint: () ->
@@ -102,7 +112,7 @@ however you still will play a bit of a text game. The command will only to work 
       when this.position > 304 
         this.sprint "You need to be equiped before going on war, and that blue screen is death."
       when this.position > 310
-        this.sprint "If the moon can't catch the sun, the stairway to freedom will stay almost invisible"
+        this.sprint "If the moon can't catch the sun, the stairway to freedom will stay almost invisible ... oh, and collisions reset the \"magnetic jump\""
 
 
 
@@ -111,13 +121,13 @@ however you still will play a bit of a text game. The command will only to work 
     if(this.position < 302) 
       this.play 302
     else
-      this.sprint "Sorry you can only skip the text game"
+      this.sprint "Sorry you can only skip the tutorial"
 
   doEat: (target) ->
     if !target
       msg = this.funcName + " <...>, what ?"
     else
-      if(this.gobjects[target]['interactions']['doEat'])
+      if(this.gobjects[target] && this.gobjects[target]['interactions']['doEat'])
         if(inArray target, this.inventory)
           msg = if this.funcName == 'eat' then "nom nom nom" else "That was refreshing"
           this.inventory.pop target
@@ -125,6 +135,7 @@ however you still will play a bit of a text game. The command will only to work 
           msg = "Nooope, I don't see that in your bag"
       else
         msg = "You're just silly"
+    this.sprint msg
     
   doFuck: (target) ->
     this.sprint 'rage ?'
@@ -134,7 +145,7 @@ however you still will play a bit of a text game. The command will only to work 
 
   doUnlock: (target) ->
     msg = "What do you want to unlock ?"
-    if(target == "door")
+    if(target == "door" || target == "room")
       if(this.tutorial)
         msg = "it's already unlocked"
         this.tutorial = true
