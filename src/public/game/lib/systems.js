@@ -31,7 +31,7 @@ Rendering.prototype.draw = function(gobject, surface, camera) {
 
       var offset = [0, 0];
       var rect = gobject.rect.move(camera.getOffset());
-      gobject.image ? surface.blit(gobject.image, rect, offset) : surface.fill(gobject.color, gobject.rect);
+      gobject.image ? surface.blit(gobject.image, rect, offset) : surface.fill(gobject.color, rect);
 
       //image = gobject.image;
     }
@@ -62,12 +62,15 @@ Rendering.prototype.clear = function(sprite, surface, camera) {
   imgSize = new gamejs.Rect([0,0], size);
   mySurface = new gamejs.Surface(size);
   
-  var rect = sprite.rect.clone();
-  var rect2 = sprite.rect.move(camera.getOffset());
+  //var rect = sprite.rect.clone();
+  var rect = sprite.rect.move(camera.getOffset());
   //if(sprite.name == 'box2') console.log(oldRect.topleft, rect.topleft, rect2.topleft )
   //rect = new gamejs.Rect(pos, size);
-  mySurface.blit(surface, imgSize, rect);
-  sprite.oldImage = mySurface;
+  var size = surface.getSize();
+  if(rect.left + rect.width < size[0] && rect.top + rect.width < size[1] && rect.left > size[0] && rect.top > size[1]) {
+    mySurface.blit(surface, imgSize, rect);
+    sprite.oldImage = mySurface;
+  }
 };
 
 Rendering.prototype.drawBackground = function(director) {
