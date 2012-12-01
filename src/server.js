@@ -25,7 +25,7 @@
   cons = require('consolidate');
 
   app.configure(function() {
-    app.set('port', process.env.PORT || 3001);
+    app.set('port', process.env.PORT || 3011);
     app.engine('haml', cons.haml);
     app.set('views', __dirname + '/views');
     app.engine('haml', cons.haml);

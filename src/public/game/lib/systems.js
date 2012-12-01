@@ -194,7 +194,6 @@ Movement.prototype.update = function(sprite, ms, director) {
         sprite.moveX = -sprite.moveX; 
         sprite.collided = !sprite.collided;
         if(sprite.collided) { 
-          console.log('poum poum le cha')
           sprite.speed++;
         }
       }

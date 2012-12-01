@@ -172,8 +172,10 @@ Director.prototype.pong = function() {
     });
     this.setScene(myScene);
   } else {
+    var color = this.dark ? '#000' : '#fff';
+    var size = this.surface.getSize();
+    this.surface.fill(color, new gamejs.Rect([size[0]/2 - 100, size[1]/2 - 20], [200, 20]));
     //this.scene.spriteGroup.remove(ball);
-    size = this.surface.getSize();
     //ball.circle = { color: '#fff', radius: 5}
     var ball = this.scene.sprites.ball
     ball.rect = new gamejs.Rect([size[0]/2, size[1]/2], [10, 10]);
@@ -400,7 +402,7 @@ Director.prototype.handleInput = function(event) {
       }   
       if(this.pause) {
          this.pause = false;
-          this.pong();
+         this.pong();
       }
     } else if (event.type === gamejs.event.KEY_UP) {
       switch(event.key){
