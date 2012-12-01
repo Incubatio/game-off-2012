@@ -28,32 +28,48 @@ To finally have a classical rpg (cf: final fantasy VI, chrono trigger ..) in col
 
 Install
 =======
+
 npm install
+
 node ./src/server.js
+
 browse: http://localhost:3000
 
 
 Requirements
 ============
+
 Server:
-- Os Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
-- node > v0.8.14
+
+  - Os Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
+  - node > v0.8.14
 
 Client:
-- browser with full html5 support
+
+  - browser with full html5 support
 
 
 Folder architecture
 ===================
+
 *coffee*    = socket.io + express server script and backbone client script
+
 *src*       = project sources.
+
   *data*    = data for game (maps, scenes, texts)
+
   *public*
+
     *game*
+
     *js*
+
     *img*
+
     *css*
+
   *views* 
+
 *var*       = logs
 
 
