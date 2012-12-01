@@ -303,34 +303,46 @@ Director.prototype.draw = function() {
 Director.prototype.handleInput = function(event) {
   if (event.type === gamejs.event.KEY_DOWN) {
     if(event.key == gamejs.event.K_t) {
-      this.test();
+      //this.test();
     }
   }
   if(this.status === this.RUNNING && this.scene.sprites.Player) {
     player = this.scene.sprites.Player; 
     if (event.type === gamejs.event.KEY_DOWN) {
       switch(event.key){
-        case gamejs.event.K_w:  player.moveY = -1; break;
-        case gamejs.event.K_s:  player.moveY = 1;  break;
-        case gamejs.event.K_a:  player.moveX = -1; break;
-        case gamejs.event.K_d:  player.moveX = 1;  break;
+        case gamejs.event.K_w:  
+        case gamejs.event.K_UP:  
+          player.moveY = -1; break;
+        case gamejs.event.K_s:  
+        case gamejs.event.K_DOWN:  
+          player.moveY = 1;  break;
+        case gamejs.event.K_a:  
+        case gamejs.event.K_LEFT:  
+          player.moveX = -1; break;
+        case gamejs.event.K_d:  
+        case gamejs.event.K_RIGHT:  
+          player.moveX = 1;  break;
       }   
-      if(event.key == gamejs.event.K_UP) {
+      if(event.key == gamejs.event.K_e) {
         this.scene.sprites.Player.attacking = true;
       }
       if(event.key == gamejs.event.K_q) {
-        this._dialog('john do', 'message');
+        //this._dialog('john do', 'message');
       }
     } else if (event.type === gamejs.event.KEY_UP) {
       switch(event.key){
         case gamejs.event.K_w:  
+        case gamejs.event.K_UP:  
           if(player.moveY < 0) player.moveY = 0;break;
         case gamejs.event.K_s:  
+        case gamejs.event.K_DOWN:  
           if(player.moveY > 0) player.moveY = 0;break;
 
         case gamejs.event.K_a: 
+        case gamejs.event.K_LEFT:  
           if(player.moveX < 0) player.moveX = 0; break;
         case gamejs.event.K_d:   
+        case gamejs.event.K_RIGHT:  
           if(player.moveX > 0) player.moveX = 0; break;
       }   
 
