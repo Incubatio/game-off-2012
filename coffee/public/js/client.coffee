@@ -1,7 +1,7 @@
 $ = jQuery = window.$;
 io         = window.io;
 Backbone   = window.Backbone
-socket = io.connect('http://localhost:3010')
+socket = io.connect('http://localhost:3000')
 
 inArray = (needle, haystack) ->
   if(haystack && typeof haystack == "object")
@@ -160,7 +160,7 @@ If you are stuck with the current puzzle type \"hint\" and remember there are hi
         if inArray('key', this.inventory)
           
           this.sprint target + " is now unlocked"
-          this.play 8
+          this.play 10
           msg = ''
         else
           msg = "It's locked and you don't have any key"

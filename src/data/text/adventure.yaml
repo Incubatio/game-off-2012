@@ -186,7 +186,7 @@
 
 302:
   text: |
-    no tutorial, if you forgot the basics, type "help", and if you're really really stuck, press "hint"
+    no tutorial, if you forgot the general mechanics (basics), type "help", and if you're really really stuck, press "hint" to get help on the current puzzle
   actions: ['init', "play 303"]
 
 303:
