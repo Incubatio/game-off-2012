@@ -38,8 +38,8 @@
   
 5:
   text: |  
+
     Welcome to the tutorial !!  
-    
     this game is not exactly a text game, but a combination of several games, as soon as you will progressing in the game,
     you will have two, then three tabs with very different interfaces. The tabs are able to communicate with each other, 
     so if you meet a puzzle (like a black screen), be aware that you will have to use those several tabs to solve it.
@@ -59,29 +59,37 @@
 
 7:
   text: |
+
     TUTORIAL STARTED
 
     On this tab of the game, this command line will be your hands and you eyes, you can do almost everything by using 1 or 2 words commands. 
     Try to visualise the situation and the context and put your wish in those 1, 2 words.
     For example I want a cake could be: "want cake" or "wish cake".
     In a problem solving, you would more look for information, don't hesitate to try silly commands, sometime it could work.
-
-    Note that there are differences between using an object, wearing it or storing it.
-
-    If after or during this tutorial you don't understand or remember how to use commands, please type "help", 
-    it points out the basics commands and mechanics, but  be aware that the "help" do not provide all the possible actions, neither the solution.
-
-    If at some point you're just stuck with a puzzle, type "hint", note that "hint" will bring additional information, but
-    the game will already provide other informations troughout every opened tab. 
-    
-    Here is a classic situation of a text game, you have to get information, gather object, use/equip object.
-    The goal in this tutorial is for you to get out of the room.
-
-    You're inside a room that seem strangely seem full of geek reference. 
-    The door is locked, you can't go out (what a shame, you'll have to stay on internet).
-  items: ['key', 'tachikoma', 'gundam']
+  actions: "play 8"
 
 8:
+  text: |
+
+    Note that there are differences between using an object, wearing it or storing it.
+    If after or during this tutorial you don't understand or remember how to use commands, please type "help", 
+    it points out the basics commands and mechanics, but  be aware that the "help" do not provide all the possible actions, neither the solution.
+    If at some point you're just stuck with a puzzle, type "hint", note that "hint" will bring additional information, but
+    the game will already provide other informations troughout every opened tab. 
+
+  actions: "play 9"
+    
+9:
+  text: |
+
+    Here is a classic situation of a text game, you have to get information, gather object, use/equip object.
+    The goal in this tutorial is for you to get out of the room.
+    You're inside a room that seem strangely seem full of geek reference. 
+    The door is locked, you can't go out (what a shame, you'll have to stay on internet).
+
+  items: ['key', 'tachikoma', 'gundam']
+
+10:
   text: |
     Congratulation, you just finished the tutorial.
   actions: ["init", 'play 303']
