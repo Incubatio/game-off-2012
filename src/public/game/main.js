@@ -26,6 +26,7 @@ options = {
   },
   systems: [
     'Weapon',
+    'Ai',
     'Movement',
     'Rotation',
     'Rendering'

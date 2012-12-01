@@ -103,7 +103,11 @@ Director.prototype.winForge = function() {
 /** PONG  **/
 Director.prototype.loosePong = function() { 
   this.sceneLoader.socket.emit('loose pong');
-  this.pong();
+  //this.pong();
+  //var size = this.surface.getSize();
+  this.pause = true;
+  var size = this.surface.getSize();
+  this.surface.blit(this.font.render("Press a key", "#00f" ), [size[0]/2 - 100, size[1]/2 - 20]);
 }
 
 Director.prototype.winPong = function() { 
@@ -127,43 +131,60 @@ Director.prototype.winPong = function() {
 
 
 Director.prototype.pong = function() {
-  this.status = this.RUNNING;
-  var myScene, size, image, puck, cpu, ball;
-  myScene = {
-      name: 'pong',
-      sprites : {},
-      spriteGroup : new gamejs.sprite.Group()
-  }
-  size = this.surface.getSize();
-
-  image = this.loadImage('loading.png');
-
-  // Sprites
-  ball   = components.create('Visible', 'Mobile');
-  puck   = components.create('Visible', 'Mobile');
-  cpu    = components.create('Visible', 'Mobile');
-
-  ball.circle = { color: '#fff', radius: 5}
-
-  //TODO: press space to start the game
-  ball.rect = new gamejs.Rect([size[0]/2, size[1]/2], [10, 10]);
-  ball.name = 'ball', ball.speed = 4, ball.moveX = 1, ball.moveY = 1, ball.color = '#fff';
-
-  puck.rect = new gamejs.Rect([40, size[1]/2], [3, 50]);
-  puck.color = '#fff', puck.name = 'puck', puck.speed = 10;
-
-  cpu.rect = new gamejs.Rect([size[0] - 40, 5], [3, size[1] - 10]);
-  cpu.color = '#fff', cpu.name = 'cpu', cpu.speed = 10;
-
-  myScene.sprites = { puck: puck, ball: ball, cpu: cpu};
-  myScene.spriteGroup.add([ball, puck, cpu]);
   
-  this.setScene(myScene);
+  this.status = this.RUNNING;
+  if(!this.scene) {
+    var myScene, size, image, puck, cpu, ball;
+    myScene = {
+        name: 'pong',
+        sprites : {},
+        spriteGroup : new gamejs.sprite.Group()
+    }
 
-  // reset game to remove cheat or break Adventure game's ball (both ^^)
-  this.sceneLoader.socket.on('reset pong', function() {
-    myScene.sprites.cpu.rect = new gamejs.Rect([size[0] - 40, size[1]/2], [3, 50]);
-  });
+    image = this.loadImage('loading.png');
+
+    // Sprites
+    ball   = components.create('Visible', 'Mobile');
+    puck   = components.create('Visible', 'Mobile');
+    cpu    = components.create('Visible', 'Mobile', 'Intelligent');
+
+  
+
+    //TODO: press space to start the game
+    size = this.surface.getSize();
+    ball.circle = { color: '#fff', radius: 5}
+    ball.rect = new gamejs.Rect([size[0]/2, size[1]/2], [10, 10]);
+    ball.name = 'ball', ball.speed = 4, ball.moveX = 1, ball.moveY = 1, ball.color = '#fff';
+
+    puck.rect = new gamejs.Rect([40, size[1]/2], [3, 50]);
+    puck.color = '#fff', puck.name = 'puck', puck.speed = 10;
+
+    cpu.rect = new gamejs.Rect([size[0] - 40, 100], [3, size[1] - 200]);
+    cpu.color = '#fff', cpu.name = 'cpu', cpu.maxSpeed = 10;
+
+    myScene.sprites = { puck: puck, ball: ball, cpu: cpu};
+    myScene.spriteGroup.add([ball, puck, cpu]);
+  
+
+    // reset game to remove cheat or break Adventure game's ball (both ^^)
+    this.sceneLoader.socket.on('reset pong', function() {
+      myScene.sprites.cpu.rect = new gamejs.Rect([size[0] - 40, size[1]/2], [3, 50]);
+    });
+    this.setScene(myScene);
+  } else {
+    //this.scene.spriteGroup.remove(ball);
+    size = this.surface.getSize();
+    //ball.circle = { color: '#fff', radius: 5}
+    var ball = this.scene.sprites.ball
+    ball.rect = new gamejs.Rect([size[0]/2, size[1]/2], [10, 10]);
+    ball.speed = 4, ball.moveX = 1, ball.moveY = 1;
+    this.scene.sprites.puck.rect = new gamejs.Rect([40, size[1]/2], [3, 50]);
+    this.scene.sprites.puck.speed = 4;
+    this.scene.sprites.cpu.rect = new gamejs.Rect([size[0] - 40, 100], [3, size[1] - 200]);
+    //ball.name = 'ball', ball.speed = 4, ball.moveX = 1, ball.moveY = 1, ball.color = '#fff';
+    //this.scene.spriteGroup.add(ball);
+    //this.scene.ball = ball;
+  }
 }
 
 
@@ -338,15 +359,16 @@ Director.prototype.act = function() {
 
 //TOTHINK: Manage update speed in scenes ?
 Director.prototype.update = function() {
-
-  _.each(this.scene.sprites, function(sprite, k) {
-    _.each(this.systems, function(system) {
-      system.update(sprite, 30, this);
+  if(!this.pause) {
+    _.each(this.scene.sprites, function(sprite, k) {
+      _.each(this.systems, function(system) {
+        system.update(sprite, 30, this);
+      }, this);
+        sprite.dirty = true;
     }, this);
-      sprite.dirty = true;
-  }, this);
-  if(this.scene.sprites.hammer) this.testUpdate();
-  if(this.scene.sprites.player) this.unqueue();
+    if(this.scene.sprites.hammer) this.testUpdate();
+    if(this.scene.sprites.player) this.unqueue();
+  }
 }
 
 Director.prototype.draw = function() {
@@ -375,6 +397,10 @@ Director.prototype.handleInput = function(event) {
         case gamejs.event.K_s:  
           player.moveY = 1;  break;
       }   
+      if(this.pause) {
+         this.pause = false;
+          this.pong();
+      }
     } else if (event.type === gamejs.event.KEY_UP) {
       switch(event.key){
         case gamejs.event.K_w:  

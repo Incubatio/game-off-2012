@@ -326,3 +326,17 @@ Weapon.prototype.update = function(sprite, ms, director) {
 
   }
 }
+
+var Ai = exports.Ai = function() {
+}
+Ai.prototype.update = function(sprite, ms, director) {
+  if(sprite.Intelligent) {
+    if(sprite.name == "cpu") {
+      var ball = director.scene.sprites.ball;
+      if(sprite.rect.top + sprite.rect.height / 2 < ball.rect.top + ball.rect.height / 2) sprite.moveY = 1;
+      else sprite.moveY = -1;
+      if(sprite.speed <= sprite.maxSpeed) sprite.speed = ball.speed;
+    }
+
+  }
+}

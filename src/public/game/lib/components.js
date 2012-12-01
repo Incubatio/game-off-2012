@@ -143,6 +143,10 @@ var Weaponized = exports.Weaponized = {
 
 };
 
+var Intelligent = exports.Intelligent = {
+
+}
+
 //var Shieldable = exports.Shieldable = {
 
 //};
