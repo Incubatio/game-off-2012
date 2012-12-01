@@ -242,7 +242,7 @@ Movement.prototype.update = function(sprite, ms, director) {
     sprite.rect = oldRect;
     sprite.rect.moveIp(x, y);
     collisions = gamejs.sprite.spriteCollide(sprite, director.scene.spriteGroup);
-    if(collisions && sprite.name == "player" && sprite.rect.collideRect(director.scene.sprites.door.rect)) this.director.winOiram();
+    if(collisions && sprite.name == "player" && sprite.rect.collideRect(director.scene.sprites.door.rect)) director.winOiram();
     _.each(collisions, function(sprite2, k) {
       sprite2.dirty = true;
     });
