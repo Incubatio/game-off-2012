@@ -72,9 +72,9 @@ function main() {
   myDirector = new director.Director(mySceneLoader, myParser, options);
   myDirector.dark = true;
   initIoEvents(options.prefixs);
-  //myDirector.pong();
+  myDirector.pong();
   //myDirector.winPong();
-  myDirector.forge();
+  //myDirector.forge();
   //myDirector.loadScene("start");
   //myDirector.oiram();
   //myDirector.finish();
