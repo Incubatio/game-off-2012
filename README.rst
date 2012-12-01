@@ -41,36 +41,13 @@ Requirements
 
 Server:
 
-  - Os Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
-  - node > v0.8.14
+Os Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
+node > v0.8.14
 
 Client:
 
-  - browser with full html5 support
+browser with full html5 support (tested on Firefox 16, Safari 6, Chrome 23)
 
-
-Folder architecture
-===================
-
-*coffee*    = socket.io + express server script and backbone client script
-
-*src*       = project sources.
-
-  *data*    = data for game (maps, scenes, texts)
-
-  *public*
-
-    *game*
-
-    *js*
-
-    *img*
-
-    *css*
-
-  *views* 
-
-*var*       = logs
 
 
 Credits
