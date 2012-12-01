@@ -350,6 +350,22 @@ Director.prototype.handleInput = function(event) {
   }
 };
 
+Director.prototype.finish = function() {
+  this.status = this.LOADING;
+  console.log("Kikoo");
+  var myScene, size, image, sprite, sprite2; 
+  myScene = {
+      sprites : {},
+      bgImage: this.loadImage("finish.png"),
+      spriteGroup : {}
+  }
+
+  this.setScene(myScene, false);
+  this.surface.blit(myScene.bgImage, new gamejs.Rect([0,0], this.surface.getSize())); 
+
+}
+
+
 
 /**
  * Function below are accesible from scene scripts, 

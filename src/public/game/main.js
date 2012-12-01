@@ -45,6 +45,7 @@ images = [
   'frameset/octocat.png',
   'frameset/vortex.png',
   'tileset/set_rules.png',
+  'finish.png',
 	'loading.png',
   'stargate.png'
 ];
@@ -117,6 +118,9 @@ function initIoEvents(prefixs) {
       mySpriteGroup.add(box);
       
     }
+    socket.on('finish', function() {
+        myDirector.finish();
+    }); 
 
 
     myScene.sprites = mySprites;
