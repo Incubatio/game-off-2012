@@ -38,18 +38,22 @@ myParser = new ssml.Parser();
 mySceneLoader = new director.SceneLoader(socket);
 
 
-images = [
+medias = [
   'loading.png',
   'finish.png',
   'bsod.png', 
-  'frameset/hammer.png' 
+  'frameset/hammer.png',
 ];
 
-_.each(images, function(img, key, list) {
+_.each(medias, function(img, key, list) {
   return list[key] = options.prefixs.image + img;
 });
 
-isLoaded = gamejs.preload(images);
+medias.push('game/sfx/Glass_Break.ogg'); 
+medias.push('game/sfx/Glass_Break.mp3'); 
+medias.push('game/sfx/Glass_Break.m4a');
+
+isLoaded = gamejs.preload(medias);
 
 function initIoEvents(prefixs) {
   socket.on('switch light', function(light) {
@@ -68,9 +72,9 @@ function main() {
   myDirector = new director.Director(mySceneLoader, myParser, options);
   myDirector.dark = true;
   initIoEvents(options.prefixs);
-  myDirector.pong();
+  //myDirector.pong();
   //myDirector.winPong();
-  //myDirector.forge();
+  myDirector.forge();
   //myDirector.loadScene("start");
   //myDirector.oiram();
   //myDirector.finish();

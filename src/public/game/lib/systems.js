@@ -11,9 +11,16 @@ Rendering.prototype.update = function(sprite, ms) {
     if(!sprite.animation.currentAnimation) {
       sprite.image = sprite.animation.spriteSheet.get(0); 
     } else if(sprite.name == 'hammer' && sprite.busy === true)  {
+      if(sprite.animation.currentFrame == 0) {
+        ext = Modernizr.audio.ogg ? 'ogg' : Modernizr.audio.mp3 ? 'mp3' : 'm4a';
+        audio = new gamejs.mixer.Sound('game/sfx/Glass_Break.' + ext)
+          audio.play(false);
+        console.log('pwet');
+      }
       if(!sprite.animation.finished)  player.image = sprite.animation.currentAnimation == "hit" ? player.animation.update(100) : player.animation.update(50);
       else if(sprite.animation.currentAnimation === 'hit') sprite.animation.start('back');
       else sprite.busy = false;
+
     }
   } 
 };
