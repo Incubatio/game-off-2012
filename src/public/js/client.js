@@ -87,8 +87,8 @@
       return this.sprint("Your inventory has been updated (you received new objects)");
     },
     doSkip: function(target) {
-      if (this.position < 300) {
-        return this.play(300);
+      if (this.position < 302) {
+        return this.play(302);
       } else {
         return this.sprint("Sorry you can only skip the text game");
       }
@@ -125,7 +125,9 @@
           this.tutorial = true;
         } else {
           if (inArray('key', this.inventory)) {
-            msg = target + " is now unlocked";
+            this.sprint(target + " is now unlocked");
+            this.play(8);
+            msg = '';
           } else {
             msg = "It's locked and you don't have any key";
           }

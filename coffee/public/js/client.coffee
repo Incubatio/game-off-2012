@@ -96,8 +96,8 @@ however you still will play a bit of a text game. The command will only to work 
 
 
   doSkip: (target) ->
-    if(this.position < 300) 
-      this.play 300
+    if(this.position < 302) 
+      this.play 302
     else
       this.sprint "Sorry you can only skip the text game"
 
@@ -128,7 +128,10 @@ however you still will play a bit of a text game. The command will only to work 
         this.tutorial = true
       else
         if inArray('key', this.inventory)
-          msg = target + " is now unlocked"
+          
+          this.sprint target + " is now unlocked"
+          this.play 8
+          msg = ''
         else
           msg = "It's locked and you don't have any key"
     this.sprint msg   
