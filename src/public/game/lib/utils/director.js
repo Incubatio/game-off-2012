@@ -387,7 +387,7 @@ Director.prototype.draw = function() {
 
 //TOTHINK: Manage input in scenes ?
 Director.prototype.handleInput = function(event) {
-  if(event.key === gamejs.event.K_t) this.test();
+  //if(event.key === gamejs.event.K_t) this.test();
 
   if(this.status === this.RUNNING && this.scene.sprites.puck) {
     player = this.scene.sprites.puck; 
