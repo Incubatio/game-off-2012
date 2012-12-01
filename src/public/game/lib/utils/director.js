@@ -287,11 +287,14 @@ Director.prototype.update = function() {
 Director.prototype.draw = function() {
 
   _.each(this.scene.sprites, function(sprite, k) {
-      if(!this.dark && sprite.dirty && sprite.rect.left > 0 && sprite.rect.top > 0) this.systems.Rendering.clear(sprite, this.surface, this.camera);
+      //if(!this.dark && sprite.dirty && sprite.rect.left > 0 && sprite.rect.top > 0) this.systems.Rendering.clear(sprite, this.surface, this.camera);
   }, this); 
+
+  this.camera.dirty = true;
   if(this.camera.dirty) this.systems.Rendering.drawBackground(this);
 
   _.each(this.scene.sprites, function(sprite, k) {
+      sprite.dirty = true;
       if(!this.dark && sprite.rect.left > 0 && sprite.rect.top > 0) this.systems.Rendering.draw(sprite, this.surface, this.camera);
       //// TOTHINK: define empty methods vs test if method exists
       //// TODO: an event base application would be more proper: cf Incube_Events

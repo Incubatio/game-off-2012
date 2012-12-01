@@ -3,7 +3,7 @@ var gamejs    = require('gamejs'),
 
 // Render
 var Rendering = exports.Rendering = function() {
-  this.scaleRate = 1;
+  this.scaleRate = 1.5;
 };
 
 Rendering.prototype.update = function(sprite, ms) {
@@ -270,11 +270,11 @@ var Trigger = exports.Trigger = function() {
 Trigger.prototype.update = function(sprite, ms, director) {
   if(sprite.Triggerable && sprite.triggered === true) {
     if(sprite.name == 'vortex') {
-      console.log('test');
       var collisions = gamejs.sprite.spriteCollide(sprite, director.scene.spriteGroup);
       for(var i = 0; i < collisions.length; i++) {
         var sprite2 = collisions[i];
         if(sprite2.Movable) {
+          sprite2.rect.moveIp([-500, -500]);
           sprite2.kill();
           //director.scene.sprites[sprite2.name] = false;
           director.sceneLoader.socket.emit('transfer cube'); 

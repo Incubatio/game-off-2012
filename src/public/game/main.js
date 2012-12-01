@@ -106,11 +106,14 @@ function initIoEvents(prefixs) {
 
     var box;
     for(var j = 2; j < 14; j++) {
+      var k = 2;
       key = 'box' + j
       box = components.create(new gamejs.sprite.Sprite(), 'Base', 'Visible', 'Movable', 'Mobile');
+    
+      (j%2 == 0) ? k-- : k++;
   
       box.size = [32, 32];
-      box.pos = [j*32*2, 4*32*2];
+      box.pos = [j*32 + 70, 32*k + 100];
       box.rect = new gamejs.Rect(box.pos, box.size);
       box.color = '#fff';
       box.name = key;
