@@ -263,7 +263,7 @@
     },
     doEquip: function(target) {
       var msg;
-      if (this.data[this.position]['items']) {
+      if (this.data[this.position]['items'] && inArray(target, this.data[this.position]['items'])) {
         if (this.funcName === 'equip') {
           msg = "I can't equip what i don't have in my inventory";
         } else {
