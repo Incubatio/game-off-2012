@@ -53,7 +53,7 @@ sprites:
 
   sword:
     Base:
-      pos: [100, 100]
+      pos: [-100, 100]
       size: [64, 64]
       group: 'weapon'
     Animated:
