@@ -103,7 +103,7 @@ Director.prototype.winForge = function() {
 /** PONG  **/
 Director.prototype.loosePong = function() { 
   this.sceneLoader.socket.emit('loose pong');
-  this.loading();
+  this.pong();
 }
 
 Director.prototype.winPong = function() { 
@@ -339,20 +339,26 @@ Director.prototype.draw = function() {
 
 //TOTHINK: Manage input in scenes ?
 Director.prototype.handleInput = function(event) {
-  if(event.key === gamejs.event.K_t) this.test();
+  //if(event.key === gamejs.event.K_t) this.test();
 
   if(this.status === this.RUNNING && this.scene.sprites.puck) {
     player = this.scene.sprites.puck; 
     if (event.type === gamejs.event.KEY_DOWN) {
       switch(event.key){
-        case gamejs.event.K_w:  player.moveY = -1; break;
-        case gamejs.event.K_s:  player.moveY = 1;  break;
+        case gamejs.event.K_w:  
+        case gamejs.event.K_UP:  
+          player.moveY = -1; break;
+        case gamejs.event.K_DOWN: 
+        case gamejs.event.K_s:  
+          player.moveY = 1;  break;
       }   
     } else if (event.type === gamejs.event.KEY_UP) {
       switch(event.key){
         case gamejs.event.K_w:  
+        case gamejs.event.K_UP:  
           if(player.moveY < 0) player.moveY = 0;break;
         case gamejs.event.K_s:  
+        case gamejs.event.K_DOWN:  
           if(player.moveY > 0) player.moveY = 0;break;
       }   
     } 
@@ -362,14 +368,20 @@ Director.prototype.handleInput = function(event) {
     if (event.type === gamejs.event.KEY_DOWN) {
       switch(event.key){
         case gamejs.event.K_SPACE: if(player.jumpDistance === 0) player.isJumping = true; break;
-        case gamejs.event.K_a:  player.moveX = -1; break;
-        case gamejs.event.K_d:  player.moveX = 1;  break;
+        case gamejs.event.K_a:  
+        case gamejs.event.K_LEFT:  
+          player.moveX = -1; break;
+        case gamejs.event.K_d:  
+        case gamejs.event.K_RIGHT: 
+          player.moveX = 1;  break;
       }   
     } else if (event.type === gamejs.event.KEY_UP) {
       switch(event.key){
         case gamejs.event.K_a: 
+        case gamejs.event.K_LEFT: 
           if(player.moveX < 0) player.moveX = 0; break;
         case gamejs.event.K_d:   
+        case gamejs.event.K_RIGHT:   
           if(player.moveX > 0) player.moveX = 0; break;
       }   
     } 
