@@ -160,7 +160,7 @@ Director.prototype.pong = function() {
     puck.color = '#fff', puck.name = 'puck', puck.speed = 10;
 
     cpu.rect = new gamejs.Rect([size[0] - 40, 100], [3, size[1] - 200]);
-    cpu.color = '#fff', cpu.name = 'cpu', cpu.maxSpeed = 10;
+    cpu.color = '#fff', cpu.name = 'cpu', cpu.maxSpeed = 6;
 
     myScene.sprites = { puck: puck, ball: ball, cpu: cpu};
     myScene.spriteGroup.add([ball, puck, cpu]);
@@ -179,8 +179,9 @@ Director.prototype.pong = function() {
     ball.rect = new gamejs.Rect([size[0]/2, size[1]/2], [10, 10]);
     ball.speed = 4, ball.moveX = 1, ball.moveY = 1;
     this.scene.sprites.puck.rect = new gamejs.Rect([40, size[1]/2], [3, 50]);
-    this.scene.sprites.puck.speed = 4;
-    this.scene.sprites.cpu.rect = new gamejs.Rect([size[0] - 40, 100], [3, size[1] - 200]);
+    var rect = this.scene.sprites.cpu.rect;
+    this.scene.sprites.cpu.rect = new gamejs.Rect([size[0] - 40, 100], [rect.width, rect.height]);
+    this.scene.sprites.cpu.speed = 4;
     //ball.name = 'ball', ball.speed = 4, ball.moveX = 1, ball.moveY = 1, ball.color = '#fff';
     //this.scene.spriteGroup.add(ball);
     //this.scene.ball = ball;

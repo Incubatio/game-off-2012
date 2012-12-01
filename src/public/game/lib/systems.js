@@ -192,7 +192,11 @@ Movement.prototype.update = function(sprite, ms, director) {
       if(sprite.name === 'ball') {
         x = -x;
         sprite.moveX = -sprite.moveX; 
-        sprite.speed++;
+        sprite.collided = !sprite.collided;
+        if(sprite.collided) { 
+          console.log('poum poum le cha')
+          sprite.speed++;
+        }
       }
       //sprite.rect = hackRect;
       sprite.rect = oldRect.clone();

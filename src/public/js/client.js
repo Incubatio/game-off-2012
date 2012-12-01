@@ -72,7 +72,7 @@
     console.log(new Date());
     App = new AppRouter();
     Backbone.history.start();
-    window.socket = Backbone.io.connect('http://localhost:3000');
+    window.socket = Backbone.io.connect('http://localhost:3010');
     require.setModuleRoot("/game");
     require.run("main");
   });
