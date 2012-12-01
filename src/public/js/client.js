@@ -35,7 +35,7 @@
     data: {},
     gobjects: {
       ball: {
-        description: "A small computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
+        description: "An outrageous tribute to the first tennis simulation: A small computer designed as a ball shape. We can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
         interactions: {
           doAttack: "emit reset pong"
         }
