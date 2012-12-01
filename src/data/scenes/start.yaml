@@ -17,16 +17,6 @@ sprites:
       speed: 0
     Movable:
   
-  box:
-    Base:
-      pos: [200, 500] 
-      size: [32, 32]
-    Mobile:
-      speed: 0
-    Visible: 
-      color: '#fff'
-    Movable:
-
   stargate:
     Base:
       pos: [250, 1] 

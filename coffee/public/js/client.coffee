@@ -71,6 +71,7 @@ Console =
     doHelp: ['help']
     doSkip: ['skip']
     doFuck: ['fuck', 'frustration']
+    doHint: ['hint']
   }
 
   #answers: {
@@ -93,6 +94,17 @@ however you still will play a bit of a text game. The command will only to work 
     this.sprint "END OF THE TUTORIAL\n\n"
     this.inventory = ['ball', 'lampp', 'cake', 'drink', 'hammer', 'tachikoma', 'gundam']
     this.sprint "Your inventory has been updated (you received new objects)"
+
+  doHint: () ->
+    switch true
+      when this.position > 303 
+        this.sprint "What would you do to you worst male ennemy if you were a violent person ?!"
+      when this.position > 304 
+        this.sprint "You need to be equiped before going on war, and that blue screen is death."
+      when this.position > 310
+        this.sprint "If the moon can't catch the sun, the stairway to freedom will stay almost invisible"
+
+
 
 
   doSkip: (target) ->
