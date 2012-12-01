@@ -22,7 +22,7 @@ Console =
   data: {}
   gobjects: {
     ball: {
-      description: "A computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
+      description: "A small computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
       interactions: {
         doAttack: "emit reset pong"
       }
@@ -115,7 +115,7 @@ If you are stuck with the current puzzle type \"hint\" and remember there are hi
   doHint: () ->
     switch true
       when this.position > 303 
-        this.sprint "What would you do to you worst male ennemy if you were a violent person ?!"
+        this.sprint "You need to make use of an object in your bag, that is somehow related to pong"
       when this.position > 304 
         this.sprint "You need to be equiped before going on war, and that blue screen is death."
       when this.position > 310

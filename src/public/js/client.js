@@ -10,7 +10,7 @@
 
   Backbone = window.Backbone;
 
-  socket = io.connect('http://localhost:3000');
+  socket = io.connect('http://localhost:3010');
 
   inArray = function(needle, haystack) {
     var i, _i, _len;
@@ -35,7 +35,7 @@
     data: {},
     gobjects: {
       ball: {
-        description: "A computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
+        description: "A small computer designed as a ball shape. If we look closely, we can see engraved \" Microsoft windows 95 inside \", which sound in your head like HIT ME",
         interactions: {
           doAttack: "emit reset pong"
         }
@@ -89,7 +89,7 @@
       doHint: ['hint']
     },
     doHelp: function(target) {
-      return this.sprint("On the contrary to AI that assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:\n  - Movement -> moving is possible by indicating cardinal points by their first letter (n, s, e, w), for example if you want to go to the north, type n.\n  [MOVEMENT IS OBSOLETE -> as long as \"testers\" were a bit frustrated by not being able to have a spacial representation, i'll re-activate the feature, when i'll code a GPS] \n  - Inventory -> you're wearing a bag with limited space, to access your bag, type \"bag\" or \"inventory\". With theitems in your bag, you can equip/take them, look for information but also specific actions related to the item context.You most of the time need two words to manipulate object, one for the action and the other for the object/target.At any moment, if the text games bores you, you can at any time type \"skip\" which will brings to the next game, however you still will play a bit of a text game. The command will only to work to skip the first game.");
+      return this.sprint("On the contrary to AI that assists you, I'am your eyes and your hands in this world. You can do almost everything by using 1 or 2 words commands.Two important basics are:\n  - read closely text that is sent to you \n  - look for informations \n  - gather items\n  - use or equip items\nFor example, in the tutorial, the player was in a locked geek room, there was object on a ground, including a key.The following command among other could have been use to solve the situation (unlock the door):\"take key\" \n\"look key\"\n\"unlock door\"\nYou could also used a hammer:\"take hammer\"\n\"equip hammer\"\n\"break door\"\nIf you are stuck with the current puzzle type \"hint\" and remember there are hint in several tabs");
     },
     init: function() {
       this.sprint("END OF THE TUTORIAL\n\n");
@@ -99,7 +99,7 @@
     doHint: function() {
       switch (true) {
         case this.position > 303:
-          return this.sprint("What would you do to you worst male ennemy if you were a violent person ?!");
+          return this.sprint("You need to make use of an object in your bag, that is somehow related to pong");
         case this.position > 304:
           return this.sprint("You need to be equiped before going on war, and that blue screen is death.");
         case this.position > 310:

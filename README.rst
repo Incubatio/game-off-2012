@@ -17,7 +17,9 @@ The player will start with a text game:
 
 Will have then a second tab including 2 dimensions monochromes games
 
+
 .. image:: src/public/img/cheated_pong.png
+
 
 .. image:: src/public/img/da_square_moon.png
 
@@ -31,6 +33,7 @@ Install
 =======
 
 ``npm install``
+
 ``node ./src/server.js``
 
 browse: ``http://localhost:3000``
