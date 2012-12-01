@@ -90,7 +90,7 @@ Rendering.prototype.drawBackground = function(director) {
       director.map.scaled = true;
     }
     this.draw({image: image, dirty: true, Visible: true}, director.surface);
-  } else if(director.scene.bgImage) director.surface.blit(director.scene.bgImage);
+  } else if(director.scene.bgImage) director.surface.blit(director.scene.bgImage, new gamejs.Rect([0,0], director.surface.getSize()));
   else {
     console.log('bg:', director.dark);
     (director.dark) ? director.surface.fill('#000') : director.surface.fill('#fff');
@@ -233,6 +233,7 @@ Movement.prototype.update = function(sprite, ms, director) {
     sprite.rect = oldRect;
     sprite.rect.moveIp(x, y);
     collisions = gamejs.sprite.spriteCollide(sprite, director.scene.spriteGroup);
+    if(collisions && sprite.name == "player" && sprite.rect.collideRect(director.scene.sprites.door.rect)) this.director.winOiram();
     _.each(collisions, function(sprite2, k) {
       sprite2.dirty = true;
     });

@@ -40,6 +40,7 @@ mySceneLoader = new director.SceneLoader(socket);
 
 images = [
   'loading.png',
+  'finish.png',
   'bsod.png', 
   'frameset/hammer.png' 
 ];
@@ -72,6 +73,7 @@ function main() {
   //myDirector.forge();
   //myDirector.loadScene("start");
   //myDirector.oiram();
+  //myDirector.finish();
   function tick() {
     if (myDirector.busy) {
       return;

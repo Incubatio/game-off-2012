@@ -167,8 +167,31 @@ Director.prototype.pong = function() {
 }
 
 
+Director.prototype.finish = function() {
+  this.status = this.LOADING;
+  var myScene, size, image, sprite, sprite2; 
+  myScene = {
+      sprites : {},
+      bgImage: this.loadImage("finish.png"),
+      spriteGroup : {}
+  }
+
+  //this.surface.blit(this.font.render("LoadinG ..."), [size[0]/2 - 70, size[1]/2]);
+  //this.surface.blit(this.loadImage('loading.png'), [size[0]/2 - 40, size[1]/2 - 40]);
+
+  this.setScene(myScene, true);
+}
+
 
 /** OIRAM **/
+Director.prototype.winOiram = function() {
+  this.sceneLoader.socket.emit('win oiram');
+  var self = this;
+  this.sceneLoader.socket.on('finish', function() {
+    self.finish()
+  });
+}
+
 Director.prototype.oiram = function() {
   this.status = this.RUNNING;
   var myScene, size, image, puck, door, ball;
@@ -181,7 +204,7 @@ Director.prototype.oiram = function() {
   player.speed = 10;
 
   door = components.create('Visible');
-  door.rect = new gamejs.Rect([40, 90], [50, 90]);
+  door.rect = new gamejs.Rect([size[0] - 100, 90], [50, 90]);
   door.color = '#fff';
   door.name = 'door';
   
@@ -339,7 +362,7 @@ Director.prototype.draw = function() {
 
 //TOTHINK: Manage input in scenes ?
 Director.prototype.handleInput = function(event) {
-  //if(event.key === gamejs.event.K_t) this.test();
+  if(event.key === gamejs.event.K_t) this.test();
 
   if(this.status === this.RUNNING && this.scene.sprites.puck) {
     player = this.scene.sprites.puck; 
