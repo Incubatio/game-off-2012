@@ -128,6 +128,11 @@ function initIoEvents(prefixs) {
     //TODO: manage sprite groups properly
     // For now let's keep it simple only one group
     mySpriteGroup.remove(mySprites['Player']);
+    var player = mySprites.Player;
+    delete mySprites.Player;
+    mySprites.Player = player;
+    
+
     myScene.spriteGroup = mySpriteGroup;
     myScene.scripts = data.scripts;
     myScene.bgImage = data.bgImage || null;

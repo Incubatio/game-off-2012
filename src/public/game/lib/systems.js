@@ -44,7 +44,7 @@ Rendering.prototype.clear = function(sprite, surface, camera) {
   if(sprite.oldRect) {
     var oldRect = sprite.oldRect.move(camera.getOffset());
     surface.clear(oldRect);
-    surface.clear(sprite.rect);
+    //surface.clear(sprite.rect);
       if(sprite.oldImage) {
       //var oldRect = sprite.oldRect;
         //clear font without bg
@@ -62,9 +62,10 @@ Rendering.prototype.clear = function(sprite, surface, camera) {
   imgSize = new gamejs.Rect([0,0], size);
   mySurface = new gamejs.Surface(size);
   
-  //var pos = sprite.rect.move(camera.getOffset()).topleft;
-  //rect = new gamejs.Rect(pos, size);
   var rect = sprite.rect.clone();
+  var rect2 = sprite.rect.move(camera.getOffset());
+  //if(sprite.name == 'box2') console.log(oldRect.topleft, rect.topleft, rect2.topleft )
+  //rect = new gamejs.Rect(pos, size);
   mySurface.blit(surface, imgSize, rect);
   sprite.oldImage = mySurface;
 };
