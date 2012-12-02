@@ -15,7 +15,7 @@ inter-connected games in different tabs.
 
 The player will start with a text game: 
 
-<image src="https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/Adventure2.0.png" /> 
+<img src="https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/Adventure2.0.png" /> 
 
 .. image:: https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/Adventure2.0.png 
    :alt: Adventure2.0.png 
