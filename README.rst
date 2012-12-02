@@ -22,11 +22,14 @@ The player will start with a text game:
 
 Will have then a second tab including 2 dimensions games
 
-.. image:: src/public/img/cheated_pong.png
+.. image:: https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/cheated_pong.png
+   :alt: cheated_pong.png 
+    
 
 (same tab but different game phase ...)
 
-.. image:: src/public/img/da_square_moon.png
+.. image:: https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/da_square_moon.png
+   :alt: da_square_moon.png
 
 To finally have a classical rpg (cf: final fantasy VI, chrono trigger ..) in colors with animated sprites and a tmx map
 
