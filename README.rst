@@ -11,11 +11,12 @@ Description
 This game contains a unique experience (Steve job said it's a revolution) where the player will play with in multiple
 inter-connected games in different tabs.
 
-*note: Old screen shot ^^*
+*TODO: update those old screen shots*
 
 The player will start with a text game: 
 
 <image src="https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/Adventure2.0.png" /> 
+
 .. image:: https://github.com/Incubatio/game-off-2012/blob/master/src/public/img/Adventure2.0.png 
    :alt: Adventure2.0.png 
 
