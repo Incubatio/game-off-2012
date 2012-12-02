@@ -34,7 +34,6 @@ To finally have a classical rpg (cf: final fantasy VI, chrono trigger ..) in col
 (no screenshot for the last part because of the a potential spoil, it starts with a black screen)
 
 
-
 Install
 =======
 
@@ -79,27 +78,26 @@ tiles.
 Special thanks to the testers, to the open source community 
 to Simon oberhammer (creator of gamejs)
 to the mozilla dev center which is full of good documentation
-and all node/javascript community.
+and all node/javascript community, and of course github for that contest :).
 
 Post-dev Notes
 ==============
 
-That game off was really for me an opportunity to get back in my ambition to someday be a part of the people that do good
-video game where nowadays they became so rare, those which let a signature deep inside or teach something without you 
-even think you are in a learning context.
+The Github Game Off was really for me an opportunity to get back in my ambition to someday be part of the people who do good
+video game where nowadays video games became so rare. By good i'm no talking about those fancy graphics but about games
+that let you a signature deep inside, changing players oneself without puting them out of a fun and intense adventure.
 
-My first idea was a game where you build your own game, the idea was to create an entity-compenent system architecture 
-and allow the creations of different game environment by enabling/disabling systems and building hero and ennemies by assigning
-and unassigning components.
+My first idea was a game generator, more precisely  create an entity-compenent system architecture and allow the creations 
+of different game environment by enabling/disabling systems and building hero and ennemies by assigning and unassigning components.
  
-But I  after 2 weeks of development, i felt i should produce something before deadline ^^.
+But after 2 weeks of development, I felt I should produce something before deadline ^^.
 
 So this week i chose to make multiple game interacting with each other.
-Lately I discovered Adventure, a text game (i'm actually quoting in the current game), I was really amused by the fact i
-felt that a 1976 game was giving me more fun than any other recent gamed I played.
+Lately I discovered Adventure, a text game, I was really amused by the fact I felt that a 1976 game was giving me more fun than any other recent gamed I played.
 
-The testers felt otherwise, and most of them gave up "lost in the forest".  So until I make a gps for those testers, you won't play
-the great "adventure 2.0."
+I chose to include a text game for the first tab and as mainline (story line). I was really surprised by the testers first
+feedback, nowadays most player are unable to play a game without a navigation system and/or visual feedback way. Also
+in the first testable "version", is did push them in the game like "Adventure" did, without tutorial, which was a bit rough.
 
 Seems like nowdays there's no much place for people who loves supreme commander over alpha beta pruning game (sorry i meant starcraft) 
 or D&D over recent mmorpg ^^. 
