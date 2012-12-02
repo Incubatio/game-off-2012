@@ -61,19 +61,19 @@ Client:
 Credits
 =======
 sounds:
-  Glass_break: http://soundfxcenter.com
-  terminal message: http://opengameart.org/content/interface-sounds-starter-pack
+  - Glass_break: http://soundfxcenter.com
+  - terminal message: http://opengameart.org/content/interface-sounds-starter-pack
 
 animations:
-  firefox + octocat: browserquest
-  vortex chrono trigger: http://spriters-resource.com
+  - firefox + octocat: browserquest
+  - vortex chrono trigger: http://spriters-resource.com
+  - zombies: http://opengameart.org/content/zombie-sprites
 
 image:
-  stargate: wikipedia http://fr.wikipedia.org/wiki/Fichier:Stargate-color.png
-  zombies: http://opengameart.org/content/zombie-sprites
+  - stargate: wikipedia http://fr.wikipedia.org/wiki/Fichier:Stargate-color.png
 
 tiles. 
-  http://www.lostgarden.com/2006/07/more-free-game-graphics.html
+  - http://www.lostgarden.com/2006/07/more-free-game-graphics.html
 
 
 Special thanks to the testers, to the open source community 
