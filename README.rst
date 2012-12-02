@@ -9,7 +9,7 @@ Enjoy ;)
 Description
 =========
 This game contains a unique experience (Steve job said it's a revolution) where the player will play with in multiple
- inter-connected games in different tabs.
+inter-connected games in different tabs.
 
 The player will start with a text game: 
 
@@ -57,19 +57,19 @@ Client:
 Credits
 =======
 sounds:
-Glass_break: http://soundfxcenter.com
-terminal message: http://opengameart.org/content/interface-sounds-starter-pack
+  Glass_break: http://soundfxcenter.com
+  terminal message: http://opengameart.org/content/interface-sounds-starter-pack
 
 animations:
-firefox + octocat: browserquest
-vortex chrono trigger: http://spriters-resource.com
+  firefox + octocat: browserquest
+  vortex chrono trigger: http://spriters-resource.com
 
 image:
-stargate: wikipedia http://fr.wikipedia.org/wiki/Fichier:Stargate-color.png
-zombies: http://opengameart.org/content/zombie-sprites
+  stargate: wikipedia http://fr.wikipedia.org/wiki/Fichier:Stargate-color.png
+  zombies: http://opengameart.org/content/zombie-sprites
 
 tiles. 
-http://www.lostgarden.com/2006/07/more-free-game-graphics.html
+  http://www.lostgarden.com/2006/07/more-free-game-graphics.html
 
 
 Special thanks to the testers, to the open source community 
