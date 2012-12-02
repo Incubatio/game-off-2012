@@ -43,14 +43,12 @@ Requirements
 ============
 
 Server
-
-- Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
-- node > v0.8.14
+  - Unix based (because of github clone commands, i'll try to test an fix, pm me if urgent)
+  - node > v0.8.14
 
 
 Client:
-
-- browser with full html5 support (tested on Firefox 16, Safari 6, Chrome 23)
+  - browser with full html5 support (tested on Firefox 16, Safari 6, Chrome 23)
 
 
 
