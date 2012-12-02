@@ -25,7 +25,7 @@ Will have then a second tab including 2 dimensions games
 
 To finally have a classical rpg (cf: final fantasy VI, chrono trigger ..) in colors with animated sprites and a tmx map
 
-(no screenshot for the last part because of the a potential, it starts with a black screen)
+(no screenshot for the last part because of the a potential spoil, it starts with a black screen)
 
 
 
