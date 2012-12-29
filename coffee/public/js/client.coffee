@@ -113,15 +113,14 @@ If you are stuck with the current puzzle type \"hint\" and remember there are hi
     this.sprint "Your inventory has been updated (you received new objects)"
 
   doHint: () ->
+    console.log 'hint', this.position
     switch true
-      when this.position > 303 
-        this.sprint "You need to make use of an object in your bag, that is somehow related to pong"
-      when this.position > 304 
-        this.sprint "You need to be equiped before going on war, and that blue screen is death."
       when this.position > 310
         this.sprint "If the moon can't catch the sun, the stairway to freedom will stay almost invisible ... oh, and collisions reset the \"magnetic jump\""
-
-
+      when this.position > 304 
+        this.sprint "You need to be equiped before going on war, and that blue screen is ennemy. What can create a blue screen, can destroy a blue screen"
+      when this.position > 298 
+        this.sprint "You need to make use of an object in your bag, which is somehow related to pong"
 
 
   doSkip: (target) ->
@@ -570,9 +569,6 @@ $( ->
     console.log(url)
     window.open(url, '_blank');
     window.focus();
-
-  
-  
 
   #require.setModuleRoot("/game")
   #require.run("main")
